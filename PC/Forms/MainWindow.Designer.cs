@@ -30,21 +30,20 @@
         {
             this.ServerLabel = new System.Windows.Forms.Label();
             this.TxtIp = new System.Windows.Forms.TextBox();
-            this.BtnConnect = new System.Windows.Forms.Button();
+            this.BtnConnectClient = new System.Windows.Forms.Button();
             this.TxtInfo = new System.Windows.Forms.TextBox();
             this.MsgLabel = new System.Windows.Forms.Label();
             this.TxtMsg = new System.Windows.Forms.TextBox();
             this.BtnSendClient = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.TxtServerIP = new System.Windows.Forms.TextBox();
+            this.TxtChatServer = new System.Windows.Forms.TextBox();
+            this.BtnStartServer = new System.Windows.Forms.Button();
+            this.BtnSendServer = new System.Windows.Forms.Button();
+            this.BtnDisconnectClient = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.TxtMsgServer = new System.Windows.Forms.TextBox();
-            this.TxtChatServer = new System.Windows.Forms.TextBox();
-            this.BtnStart = new System.Windows.Forms.Button();
-            this.BtnSendServer = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.DisconnectBtn = new System.Windows.Forms.Button();
+            this.BtnStopServer = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ServerLabel
@@ -63,15 +62,15 @@
             this.TxtIp.Size = new System.Drawing.Size(313, 22);
             this.TxtIp.TabIndex = 1;
             // 
-            // BtnConnect
+            // BtnConnectClient
             // 
-            this.BtnConnect.Location = new System.Drawing.Point(239, 419);
-            this.BtnConnect.Name = "BtnConnect";
-            this.BtnConnect.Size = new System.Drawing.Size(75, 23);
-            this.BtnConnect.TabIndex = 2;
-            this.BtnConnect.Text = "Connect";
-            this.BtnConnect.UseVisualStyleBackColor = true;
-            this.BtnConnect.Click += new System.EventHandler(this.BtnConnect_Click);
+            this.BtnConnectClient.Location = new System.Drawing.Point(239, 419);
+            this.BtnConnectClient.Name = "BtnConnectClient";
+            this.BtnConnectClient.Size = new System.Drawing.Size(75, 23);
+            this.BtnConnectClient.TabIndex = 2;
+            this.BtnConnectClient.Text = "Connect";
+            this.BtnConnectClient.UseVisualStyleBackColor = true;
+            this.BtnConnectClient.Click += new System.EventHandler(this.BtnConnectClient_Click);
             // 
             // TxtInfo
             // 
@@ -123,6 +122,45 @@
             this.TxtServerIP.Size = new System.Drawing.Size(313, 22);
             this.TxtServerIP.TabIndex = 1;
             // 
+            // TxtChatServer
+            // 
+            this.TxtChatServer.Location = new System.Drawing.Point(590, 74);
+            this.TxtChatServer.Multiline = true;
+            this.TxtChatServer.Name = "TxtChatServer";
+            this.TxtChatServer.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.TxtChatServer.Size = new System.Drawing.Size(313, 308);
+            this.TxtChatServer.TabIndex = 1;
+            // 
+            // BtnStartServer
+            // 
+            this.BtnStartServer.Location = new System.Drawing.Point(747, 419);
+            this.BtnStartServer.Name = "BtnStartServer";
+            this.BtnStartServer.Size = new System.Drawing.Size(75, 23);
+            this.BtnStartServer.TabIndex = 2;
+            this.BtnStartServer.Text = "Start";
+            this.BtnStartServer.UseVisualStyleBackColor = true;
+            this.BtnStartServer.Click += new System.EventHandler(this.BtnStartServer_Click);
+            // 
+            // BtnSendServer
+            // 
+            this.BtnSendServer.Location = new System.Drawing.Point(666, 419);
+            this.BtnSendServer.Name = "BtnSendServer";
+            this.BtnSendServer.Size = new System.Drawing.Size(75, 23);
+            this.BtnSendServer.TabIndex = 2;
+            this.BtnSendServer.Text = "Send";
+            this.BtnSendServer.UseVisualStyleBackColor = true;
+            // 
+            // BtnDisconnectClient
+            // 
+            this.BtnDisconnectClient.Enabled = false;
+            this.BtnDisconnectClient.Location = new System.Drawing.Point(320, 419);
+            this.BtnDisconnectClient.Name = "BtnDisconnectClient";
+            this.BtnDisconnectClient.Size = new System.Drawing.Size(90, 23);
+            this.BtnDisconnectClient.TabIndex = 2;
+            this.BtnDisconnectClient.Text = "Disconnect";
+            this.BtnDisconnectClient.UseVisualStyleBackColor = true;
+            this.BtnDisconnectClient.Click += new System.EventHandler(this.BtnDisconnectClient_Click);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -139,74 +177,28 @@
             this.TxtMsgServer.Size = new System.Drawing.Size(313, 22);
             this.TxtMsgServer.TabIndex = 1;
             // 
-            // TxtChatServer
+            // BtnStopServer
             // 
-            this.TxtChatServer.Location = new System.Drawing.Point(590, 74);
-            this.TxtChatServer.Multiline = true;
-            this.TxtChatServer.Name = "TxtChatServer";
-            this.TxtChatServer.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TxtChatServer.Size = new System.Drawing.Size(313, 308);
-            this.TxtChatServer.TabIndex = 1;
-            // 
-            // BtnStart
-            // 
-            this.BtnStart.Location = new System.Drawing.Point(828, 419);
-            this.BtnStart.Name = "BtnStart";
-            this.BtnStart.Size = new System.Drawing.Size(75, 23);
-            this.BtnStart.TabIndex = 2;
-            this.BtnStart.Text = "Start";
-            this.BtnStart.UseVisualStyleBackColor = true;
-            this.BtnStart.Click += new System.EventHandler(this.BtnStart_Click);
-            // 
-            // BtnSendServer
-            // 
-            this.BtnSendServer.Location = new System.Drawing.Point(747, 419);
-            this.BtnSendServer.Name = "BtnSendServer";
-            this.BtnSendServer.Size = new System.Drawing.Size(75, 23);
-            this.BtnSendServer.TabIndex = 2;
-            this.BtnSendServer.Text = "Send";
-            this.BtnSendServer.UseVisualStyleBackColor = true;
-            // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(909, 74);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(258, 308);
-            this.listBox1.TabIndex = 3;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(909, 52);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 16);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Client IP:";
-            // 
-            // DisconnectBtn
-            // 
-            this.DisconnectBtn.Enabled = false;
-            this.DisconnectBtn.Location = new System.Drawing.Point(320, 419);
-            this.DisconnectBtn.Name = "DisconnectBtn";
-            this.DisconnectBtn.Size = new System.Drawing.Size(90, 23);
-            this.DisconnectBtn.TabIndex = 2;
-            this.DisconnectBtn.Text = "Disconnect";
-            this.DisconnectBtn.UseVisualStyleBackColor = true;
-            this.DisconnectBtn.Click += new System.EventHandler(this.DisconnectBtn_Click);
+            this.BtnStopServer.Enabled = false;
+            this.BtnStopServer.Location = new System.Drawing.Point(828, 419);
+            this.BtnStopServer.Name = "BtnStopServer";
+            this.BtnStopServer.Size = new System.Drawing.Size(75, 23);
+            this.BtnStopServer.TabIndex = 3;
+            this.BtnStopServer.Text = "Stop";
+            this.BtnStopServer.UseVisualStyleBackColor = true;
+            this.BtnStopServer.Click += new System.EventHandler(this.BtnStopServer_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1179, 517);
-            this.Controls.Add(this.listBox1);
+            this.ClientSize = new System.Drawing.Size(922, 517);
+            this.Controls.Add(this.BtnStopServer);
             this.Controls.Add(this.BtnSendServer);
             this.Controls.Add(this.BtnSendClient);
-            this.Controls.Add(this.BtnStart);
-            this.Controls.Add(this.DisconnectBtn);
-            this.Controls.Add(this.BtnConnect);
+            this.Controls.Add(this.BtnStartServer);
+            this.Controls.Add(this.BtnDisconnectClient);
+            this.Controls.Add(this.BtnConnectClient);
             this.Controls.Add(this.TxtChatServer);
             this.Controls.Add(this.TxtMsgServer);
             this.Controls.Add(this.TxtInfo);
@@ -214,7 +206,6 @@
             this.Controls.Add(this.TxtMsg);
             this.Controls.Add(this.TxtServerIP);
             this.Controls.Add(this.MsgLabel);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TxtIp);
             this.Controls.Add(this.ServerLabel);
@@ -230,20 +221,19 @@
 
         private System.Windows.Forms.Label ServerLabel;
         private System.Windows.Forms.TextBox TxtIp;
-        private System.Windows.Forms.Button BtnConnect;
+        private System.Windows.Forms.Button BtnConnectClient;
         private System.Windows.Forms.TextBox TxtInfo;
         private System.Windows.Forms.Label MsgLabel;
         private System.Windows.Forms.TextBox TxtMsg;
         private System.Windows.Forms.Button BtnSendClient;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox TxtServerIP;
+        private System.Windows.Forms.TextBox TxtChatServer;
+        private System.Windows.Forms.Button BtnStartServer;
+        private System.Windows.Forms.Button BtnSendServer;
+        private System.Windows.Forms.Button BtnDisconnectClient;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox TxtMsgServer;
-        private System.Windows.Forms.TextBox TxtChatServer;
-        private System.Windows.Forms.Button BtnStart;
-        private System.Windows.Forms.Button BtnSendServer;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button DisconnectBtn;
+        private System.Windows.Forms.Button BtnStopServer;
     }
 }

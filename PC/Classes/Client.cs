@@ -1,29 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace PC.Classes
 {
     internal class Client
     {
-        public Socket ClientSocket;
-        public Client()
+        #region Private fields
+        #endregion
+
+        #region Public fields
+        public TcpClient client;
+        #endregion
+
+        #region Methods
+        public void ConnectToServer()
         {
-            ClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            try
+            {
+                Int32 port = 13000;
+                client = new TcpClient("127.0.0.1", port);
+            }
+            catch (SocketException)
+            {
+                //string message = "One user is already connected.";
+                //string caption = "Connection error";
+                //MessageBoxButtons buttons = MessageBoxButtons.OK;
+                //MessageBox.Show(message, caption, buttons);
+            }
         }
-        public async void ConnectToServerAsync()
+        public void DisconnectFromServer() 
         {
-            await ClientSocket.ConnectAsync("127.0.0.1", 8888);
-        }
-        public void DisconnectFromServerAsync() 
-        {
+            NetworkStream stream = client.GetStream();
             byte[] messageSent = Encoding.ASCII.GetBytes("D");
-            int byteSent = ClientSocket.Send(messageSent);
-            ClientSocket.Shutdown(SocketShutdown.Both);
-            ClientSocket.Disconnect(true);
-        }   
+            stream.Write(messageSent, 0, messageSent.Length);
+            stream.Close();
+            client.Close();
+            client = null;
+        }
+        #endregion
     }
 }

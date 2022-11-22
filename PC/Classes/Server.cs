@@ -1,64 +1,67 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace PC.Classes
 {
     public class Server
     {
-        public Socket Listener;
-        public IPEndPoint IpPoint;
-        public Socket ClientSocket;
-        public String Data;
-        //private Thread thread;
-        public Server()
+        #region Private fields
+
+        #endregion
+
+        #region Public fields
+        public TcpListener server = null;
+
+        public TcpClient client = null;
+
+        public string Data;
+        #endregion
+
+        #region Methods
+        public void StartServer()
         {
-            IpPoint = new IPEndPoint(IPAddress.Any, 8888);
-            Listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            //thread = new Thread(RecieveMessage);
+            Int32 port = 13000;
+            IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+            server = new TcpListener(localAddr, port);
+            server.Start();
+            WaitForConnection();
         }
 
-        public async void StartServerAsync()
+        public async void WaitForConnection()
         {
-            Listener.Bind(IpPoint);
-            Listener.Listen(10);
-            await WaitForConnectionAsync();
-        }
+            try
+            {
+                client = await server.AcceptTcpClientAsync();
+                server.Stop();
+                RecieveMessage();
+                Data = $"User {client.Client.RemoteEndPoint} successfully connected\r\n";
+            }
+            catch (ObjectDisposedException)
+            {
 
-        public async Task WaitForConnectionAsync()
-        {
-            ClientSocket = await Listener.AcceptAsync();
-            RecieveMessage();
-            Data = $"User {ClientSocket.RemoteEndPoint} successfully connected\r\n";
+            }
         }
 
         public async void RecieveMessage()
         {
+            NetworkStream stream = client.GetStream();
             byte[] bytes = new Byte[1024];
-            ArraySegment<byte> buffer = new ArraySegment<byte>(bytes);
             Data = null;
-            if (ClientSocket != null)
+            int i;
+            while ((i = await stream.ReadAsync(bytes, 0, bytes.Length)) != 0)
             {
-                while (true)
+                Data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                if (Data.IndexOf("D") > -1)
                 {
-                    //ArraySegment<byte> buffer = new(readBuffer, 0, 1024);
-
-                    int numByte = await ClientSocket.ReceiveAsync(buffer, SocketFlags.None);
-                    Data = Encoding.ASCII.GetString(buffer.Array, 0, numByte);
-                    if (Data.IndexOf("D") > -1)
-                    {
-                        ClientSocket.Shutdown(SocketShutdown.Both);
-                        ClientSocket.Close();
-                        await WaitForConnectionAsync();
-                        break;
-                    }
+                    Data = $"User {client.Client.RemoteEndPoint} successfully disconnected\r\n";
+                    client.Close();
+                    server.Start();
+                    WaitForConnection();
+                    break;
                 }
             }
         }
+        #endregion
     }
 }
