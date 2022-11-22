@@ -105,6 +105,7 @@
             this.BtnSendClient.TabIndex = 2;
             this.BtnSendClient.Text = "Send";
             this.BtnSendClient.UseVisualStyleBackColor = true;
+            this.BtnSendClient.Click += new System.EventHandler(this.BtnSendClient_Click);
             // 
             // label1
             // 

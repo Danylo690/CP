@@ -95,6 +95,11 @@ namespace PC.Forms
             BtnStopServer.Enabled = false;
         }
 
+        private void BtnSendClient_Click(object sender, EventArgs e)
+        {
+            client.SendFile();
+        }
+
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (thread != null)
