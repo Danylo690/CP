@@ -44,6 +44,7 @@
             this.BtnSendServer = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.DisconnectBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ServerLabel
@@ -64,12 +65,13 @@
             // 
             // BtnConnect
             // 
-            this.BtnConnect.Location = new System.Drawing.Point(335, 419);
+            this.BtnConnect.Location = new System.Drawing.Point(239, 419);
             this.BtnConnect.Name = "BtnConnect";
             this.BtnConnect.Size = new System.Drawing.Size(75, 23);
             this.BtnConnect.TabIndex = 2;
             this.BtnConnect.Text = "Connect";
             this.BtnConnect.UseVisualStyleBackColor = true;
+            this.BtnConnect.Click += new System.EventHandler(this.BtnConnect_Click);
             // 
             // TxtInfo
             // 
@@ -98,7 +100,7 @@
             // 
             // BtnSendClient
             // 
-            this.BtnSendClient.Location = new System.Drawing.Point(254, 419);
+            this.BtnSendClient.Location = new System.Drawing.Point(158, 419);
             this.BtnSendClient.Name = "BtnSendClient";
             this.BtnSendClient.Size = new System.Drawing.Size(75, 23);
             this.BtnSendClient.TabIndex = 2;
@@ -154,6 +156,7 @@
             this.BtnStart.TabIndex = 2;
             this.BtnStart.Text = "Start";
             this.BtnStart.UseVisualStyleBackColor = true;
+            this.BtnStart.Click += new System.EventHandler(this.BtnStart_Click);
             // 
             // BtnSendServer
             // 
@@ -182,6 +185,17 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Client IP:";
             // 
+            // DisconnectBtn
+            // 
+            this.DisconnectBtn.Enabled = false;
+            this.DisconnectBtn.Location = new System.Drawing.Point(320, 419);
+            this.DisconnectBtn.Name = "DisconnectBtn";
+            this.DisconnectBtn.Size = new System.Drawing.Size(90, 23);
+            this.DisconnectBtn.TabIndex = 2;
+            this.DisconnectBtn.Text = "Disconnect";
+            this.DisconnectBtn.UseVisualStyleBackColor = true;
+            this.DisconnectBtn.Click += new System.EventHandler(this.DisconnectBtn_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -191,6 +205,7 @@
             this.Controls.Add(this.BtnSendServer);
             this.Controls.Add(this.BtnSendClient);
             this.Controls.Add(this.BtnStart);
+            this.Controls.Add(this.DisconnectBtn);
             this.Controls.Add(this.BtnConnect);
             this.Controls.Add(this.TxtChatServer);
             this.Controls.Add(this.TxtMsgServer);
@@ -205,6 +220,7 @@
             this.Controls.Add(this.ServerLabel);
             this.Name = "MainWindow";
             this.Text = "MainWindow";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindow_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,5 +244,6 @@
         private System.Windows.Forms.Button BtnSendServer;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button DisconnectBtn;
     }
 }
