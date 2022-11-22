@@ -1,0 +1,11 @@
+E:\Studying\4 курс\КС\КП\CP\PC\obj\Debug\PC.csproj.AssemblyReference.cache
+E:\Studying\4 курс\КС\КП\CP\PC\obj\Debug\PC.csproj.SuggestedBindingRedirects.cache
+E:\Studying\4 курс\КС\КП\CP\PC\obj\Debug\PC.Forms.MainWindow.resources
+E:\Studying\4 курс\КС\КП\CP\PC\obj\Debug\PC.Properties.Resources.resources
+E:\Studying\4 курс\КС\КП\CP\PC\obj\Debug\PC.csproj.GenerateResource.cache
+E:\Studying\4 курс\КС\КП\CP\PC\obj\Debug\PC.csproj.CoreCompileInputs.cache
+E:\Studying\4 курс\КС\КП\CP\PC\bin\Debug\PC.exe.config
+E:\Studying\4 курс\КС\КП\CP\PC\bin\Debug\PC.exe
+E:\Studying\4 курс\КС\КП\CP\PC\bin\Debug\PC.pdb
+E:\Studying\4 курс\КС\КП\CP\PC\obj\Debug\PC.exe
+E:\Studying\4 курс\КС\КП\CP\PC\obj\Debug\PC.pdb
