@@ -38,26 +38,28 @@ namespace PC.Classes
 
         public void DisconnectFromServer() 
         {
-            
-            byte[] messageSent = Encoding.ASCII.GetBytes("D");
-            clientStream.Write(messageSent, 0, messageSent.Length);
+            SendMsg("<Disconnect>");
             clientStream.Close();
             client.Close();
             client = null;
         }
 
-        public void SendFile()
+        public void SendFile(string path)
         {
             byte[] SendingBuffer = null;
-            string path = Environment.CurrentDirectory + "\\test.docx";
             FileStream Fs = new FileStream(path, FileMode.Open, FileAccess.Read);
 
-            byte[] messageSent = Encoding.ASCII.GetBytes($"Sending file {Fs.Name}");
-            clientStream.Write(messageSent, 0, messageSent.Length);
+            //Send file name
+            //byte[] messageSent = Encoding.UTF8.GetBytes($"Sending file {Path.GetFileName(Fs.Name)}");
+            //clientStream.Write(messageSent, 0, messageSent.Length);
+            SendMsg($"Sending file {Path.GetFileName(Fs.Name)}");
+
+            SendMsg(Path.GetFileName(Fs.Name));
 
             int NoOfPackets = Convert.ToInt32
                 (Math.Ceiling(Convert.ToDouble(Fs.Length) / Convert.ToDouble(bufferSize)));
             int TotalLength = (int)Fs.Length, CurrentPacketLength;
+
             for (int i = 0; i < NoOfPackets; i++)
             {
                 if (TotalLength > bufferSize)
@@ -74,6 +76,12 @@ namespace PC.Classes
                 clientStream.Write(SendingBuffer, 0, SendingBuffer.Length);
             }
             Fs.Close();
+        }
+
+        public void SendMsg(string data)
+        {
+            byte[] messageSent = Encoding.UTF8.GetBytes(data);
+            clientStream.Write(messageSent, 0, messageSent.Length);
         }
         #endregion
     }

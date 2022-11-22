@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using PC.Classes;
 using System.Threading;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.IO;
 
 namespace PC.Forms
 {
@@ -97,7 +99,26 @@ namespace PC.Forms
 
         private void BtnSendClient_Click(object sender, EventArgs e)
         {
-            client.SendFile();
+            OpenFileDialog FileDialog = new OpenFileDialog
+            {
+                //InitialDirectory = @"D:\",
+                Title = "Browse Files",
+
+                CheckFileExists = true,
+                CheckPathExists = true,
+
+                //DefaultExt = "txt",
+                Filter = "All files (*.*)|*.*",
+                FilterIndex = 2,
+                RestoreDirectory = true,
+
+                ReadOnlyChecked = true,
+                ShowReadOnly = true
+            };
+            if (FileDialog.ShowDialog() == DialogResult.OK)
+            {
+                client.SendFile(FileDialog.FileName);
+            }
         }
 
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)

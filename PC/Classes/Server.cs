@@ -12,8 +12,12 @@ namespace PC.Classes
     {
         #region Private fields
         private const int bufferSize = 1024;
+
         private Thread threadRecieveMsg;
+
         private NetworkStream streamMsg;
+
+        private string fileName;
         #endregion
 
         #region Public fields
@@ -25,12 +29,6 @@ namespace PC.Classes
         #endregion
 
         #region Methods
-        public Server()
-        {
-            threadRecieveMsg = new Thread(RecieveMessage);
-            //threadRecieveFile = new Thread(RecieveFile);
-        }
-
         public void StartServer()
         {
             Int32 port = 13000;
@@ -46,7 +44,7 @@ namespace PC.Classes
             {
                 client = await server.AcceptTcpClientAsync();
                 server.Stop();
-                //RecieveMessage();
+                threadRecieveMsg = new Thread(RecieveMessage);
                 threadRecieveMsg.Start();
                 Data = $"User {client.Client.RemoteEndPoint} successfully connected\r\n";
             }
@@ -56,16 +54,16 @@ namespace PC.Classes
             }
         }
 
-        public async void RecieveMessage()
+        public void RecieveMessage()
         {
             streamMsg = client.GetStream();
-            byte[] bytes = new Byte[1024];
+            byte[] bytes = new Byte[bufferSize];
             Data = null;
             int i;
             while ((i = streamMsg.Read(bytes, 0, bytes.Length)) != 0)
             {
-                Data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                if (Data.IndexOf("D") == 0)
+                Data = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
+                if (Data.IndexOf("<Disconnect>") > -1)
                 {
                     Data = $"User {client.Client.RemoteEndPoint} successfully disconnected\r\n";
                     client.Close();
@@ -75,20 +73,19 @@ namespace PC.Classes
                 }
                 else
                 {
-                    //streamMsg.Close();
-                    RecieveFile();
+                    i = streamMsg.Read(bytes, 0, bytes.Length);
+                    fileName = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
+                    RecieveFile(fileName);
                 }
             }
+            threadRecieveMsg.Abort();
         }
 
-        public async void RecieveFile()
+        public void RecieveFile(string fileName)
         {
-            //threadRecieveMsg.Abort();
-            //NetworkStream stream = client.GetStream();
-            byte[] RecData = new byte[bufferSize];
+            byte[] RecData = new Byte[bufferSize];
             int RecBytes;
-            string path = Environment.CurrentDirectory + "\\test.docx";
-
+            string path = Environment.CurrentDirectory + $"\\{fileName}";
             using (FileStream Fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
             {
                 while ((RecBytes = streamMsg.Read(RecData, 0, RecData.Length)) > 0)
@@ -100,7 +97,6 @@ namespace PC.Classes
                     }
                 }
             }
-            //streamMsg = client.GetStream();
         }
         #endregion
     }
