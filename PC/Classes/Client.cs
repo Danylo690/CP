@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace PC.Classes
@@ -12,6 +14,10 @@ namespace PC.Classes
         private const int bufferSize = 1024;
 
         private NetworkStream clientStream { get; set; }
+
+        private Thread threadServerCheck;
+
+        private bool IsMsgSent;
         #endregion
 
         #region Public fields
@@ -19,13 +25,14 @@ namespace PC.Classes
         #endregion
 
         #region Methods
-        public void ConnectToServer()
+        public async void ConnectToServer(string ipAddress, Int32 port)
         {
             try
             {
-                Int32 port = 13000;
-                client = new TcpClient("127.0.0.1", port);
+                client = new TcpClient(ipAddress, port);
                 clientStream = client.GetStream();
+                threadServerCheck = new Thread(MsgRecieved);
+                threadServerCheck.Start();
             }
             catch (SocketException)
             {
@@ -48,14 +55,14 @@ namespace PC.Classes
             FileStream Fs = new FileStream(path, FileMode.Open, FileAccess.Read);
 
             SendMsg($"Sending file {Path.GetFileName(Fs.Name)}\r\n");
-            MsgRecieved();
 
             SendMsg(Path.GetFileName(Fs.Name));
-            MsgRecieved();
 
             int NoOfPackets = Convert.ToInt32
                 (Math.Ceiling(Convert.ToDouble(Fs.Length) / Convert.ToDouble(bufferSize)));
             int TotalLength = (int)Fs.Length, CurrentPacketLength;
+
+            SendMsg(Path.GetFileName($"{NoOfPackets}"));
 
             for (int i = 0; i < NoOfPackets; i++)
             {
@@ -70,16 +77,21 @@ namespace PC.Classes
                 }
                 SendingBuffer = new byte[CurrentPacketLength];
                 Fs.Read(SendingBuffer, 0, CurrentPacketLength);
+                IsMsgSent = false;
                 clientStream.Write(SendingBuffer, 0, SendingBuffer.Length);
+
+                WaitUntilSentMsg();
             }
-            MsgRecieved();
+            SendMsg("<End file sent>");
             Fs.Close();
         }
 
         public void SendMsg(string data)
         {
             byte[] messageSent = Encoding.UTF8.GetBytes(data);
+            IsMsgSent = false;
             clientStream.Write(messageSent, 0, messageSent.Length);
+            WaitUntilSentMsg();
         }
 
         public void MsgRecieved()
@@ -87,9 +99,32 @@ namespace PC.Classes
             byte[] Msg = new byte[bufferSize];
             while (true)
             {
-                int i = clientStream.Read(Msg, 0, Msg.Length);
-                string Data = System.Text.Encoding.UTF8.GetString(Msg, 0, i);
-                if (Data.IndexOf("<Sent>") > -1)
+                try
+                {
+                    int i = clientStream.Read(Msg, 0, Msg.Length);
+                    string Data = System.Text.Encoding.UTF8.GetString(Msg, 0, i);
+                    if (Data.IndexOf("<Sent>") > -1)
+                    {
+                        IsMsgSent = true;
+                    }
+                    if (Data.IndexOf("<Server stopped>") > -1)
+                    {
+                        StopClientWork();
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+                
+            }
+        }
+
+        public void WaitUntilSentMsg()
+        {
+            while (true)
+            {
+                if (IsMsgSent)
                 {
                     break;
                 }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.ServerLabel = new System.Windows.Forms.Label();
-            this.TxtIp = new System.Windows.Forms.TextBox();
+            this.TxtIpClient = new System.Windows.Forms.TextBox();
             this.BtnConnectClient = new System.Windows.Forms.Button();
             this.TxtInfo = new System.Windows.Forms.TextBox();
             this.MsgLabel = new System.Windows.Forms.Label();
@@ -44,23 +44,26 @@
             this.label2 = new System.Windows.Forms.Label();
             this.TxtMsgServer = new System.Windows.Forms.TextBox();
             this.BtnStopServer = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.TxtPortClient = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // ServerLabel
             // 
             this.ServerLabel.AutoSize = true;
-            this.ServerLabel.Location = new System.Drawing.Point(41, 49);
+            this.ServerLabel.Location = new System.Drawing.Point(16, 15);
             this.ServerLabel.Name = "ServerLabel";
-            this.ServerLabel.Size = new System.Drawing.Size(50, 16);
+            this.ServerLabel.Size = new System.Drawing.Size(75, 16);
             this.ServerLabel.TabIndex = 0;
-            this.ServerLabel.Text = "Server:";
+            this.ServerLabel.Text = "IP address:";
             // 
-            // TxtIp
+            // TxtIpClient
             // 
-            this.TxtIp.Location = new System.Drawing.Point(97, 46);
-            this.TxtIp.Name = "TxtIp";
-            this.TxtIp.Size = new System.Drawing.Size(313, 22);
-            this.TxtIp.TabIndex = 1;
+            this.TxtIpClient.Location = new System.Drawing.Point(97, 12);
+            this.TxtIpClient.Name = "TxtIpClient";
+            this.TxtIpClient.Size = new System.Drawing.Size(313, 22);
+            this.TxtIpClient.TabIndex = 1;
+            this.TxtIpClient.Text = "192.168.1.107";
             // 
             // BtnConnectClient
             // 
@@ -122,6 +125,7 @@
             this.TxtServerIP.Name = "TxtServerIP";
             this.TxtServerIP.Size = new System.Drawing.Size(313, 22);
             this.TxtServerIP.TabIndex = 1;
+            this.TxtServerIP.Text = "192.168.1.107: 13000";
             // 
             // TxtChatServer
             // 
@@ -189,6 +193,23 @@
             this.BtnStopServer.UseVisualStyleBackColor = true;
             this.BtnStopServer.Click += new System.EventHandler(this.BtnStopServer_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(57, 46);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(34, 16);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Port:";
+            // 
+            // TxtPortClient
+            // 
+            this.TxtPortClient.Location = new System.Drawing.Point(97, 43);
+            this.TxtPortClient.Name = "TxtPortClient";
+            this.TxtPortClient.Size = new System.Drawing.Size(313, 22);
+            this.TxtPortClient.TabIndex = 1;
+            this.TxtPortClient.Text = "13000";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -208,7 +229,9 @@
             this.Controls.Add(this.TxtServerIP);
             this.Controls.Add(this.MsgLabel);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.TxtIp);
+            this.Controls.Add(this.TxtPortClient);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.TxtIpClient);
             this.Controls.Add(this.ServerLabel);
             this.Name = "MainWindow";
             this.Text = "MainWindow";
@@ -221,7 +244,7 @@
         #endregion
 
         private System.Windows.Forms.Label ServerLabel;
-        private System.Windows.Forms.TextBox TxtIp;
+        private System.Windows.Forms.TextBox TxtIpClient;
         private System.Windows.Forms.Button BtnConnectClient;
         private System.Windows.Forms.TextBox TxtInfo;
         private System.Windows.Forms.Label MsgLabel;
@@ -236,5 +259,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox TxtMsgServer;
         private System.Windows.Forms.Button BtnStopServer;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox TxtPortClient;
     }
 }

@@ -18,6 +18,8 @@ namespace PC.Classes
         private NetworkStream streamMsg;
 
         private string fileName;
+
+        private int noOfPackets;
         #endregion
 
         #region Public fields
@@ -27,6 +29,8 @@ namespace PC.Classes
 
         public string Data;
 
+        public string Logs;
+
         public TextBox TxtMsgServer;
         #endregion
 
@@ -34,7 +38,7 @@ namespace PC.Classes
         public void StartServer()
         {
             Int32 port = 13000;
-            IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+            IPAddress localAddr = IPAddress.Parse("192.168.1.107");
             server = new TcpListener(localAddr, port);
             server.Start();
             threadWaitForConnection = new Thread(WaitForConnection);
@@ -47,15 +51,13 @@ namespace PC.Classes
             {
                 client = server.AcceptTcpClient();
                 server.Stop();
-                Data = $"User {client.Client.RemoteEndPoint} successfully connected\r\n";
-                TxtMsgServer.AppendText(Data);
+                Logs += Data = $"User {client.Client.RemoteEndPoint} successfully connected\r\n";
                 RecieveMessage();
 
             }
             catch (SocketException ex) when (ex.ErrorCode == 10004)
             {
-                Data = "Server stopped\n\r";
-                TxtMsgServer.AppendText(Data);
+                Logs+= Data = "Server stopped\r\n";
             }
             catch (Exception ex)
             {
@@ -80,9 +82,7 @@ namespace PC.Classes
 
                     if (Data.IndexOf("<Disconnect>") > -1)
                     {
-                        Data = $"User {client.Client.RemoteEndPoint} successfully disconnected\r\n";
-                        TxtMsgServer.AppendText(Data);
-
+                        Logs += Data = $"User {client.Client.RemoteEndPoint} successfully disconnected\r\n";
                         streamMsg.Close();
                         client.Close();
                         client = null;
@@ -93,11 +93,15 @@ namespace PC.Classes
                     }
                     else
                     {
-                        TxtMsgServer.AppendText(Data);
-
+                        Logs += Data;
                         i = streamMsg.Read(bytes, 0, bytes.Length);
                         fileName = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
                         SendMsg("<Sent>");
+
+                        i = streamMsg.Read(bytes, 0, bytes.Length);
+                        noOfPackets = int.Parse(System.Text.Encoding.UTF8.GetString(bytes, 0, i));
+                        SendMsg("<Sent>");
+
                         RecieveFile(fileName);
                         break;
                     }
@@ -114,6 +118,7 @@ namespace PC.Classes
 
         public void RecieveFile(string fileName)
         {
+            int i = 0;
             byte[] RecData = new Byte[bufferSize];
             int RecBytes;
             string path = Environment.CurrentDirectory + $"\\{fileName}";
@@ -121,19 +126,25 @@ namespace PC.Classes
             {
                 while ((RecBytes = streamMsg.Read(RecData, 0, RecData.Length)) > 0)
                 {
-                    Fs.Write(RecData, 0, RecBytes);
-                    if (RecBytes < 1024)
+                    string data = System.Text.Encoding.UTF8.GetString(RecData, 0, RecBytes);
+                    if (data.IndexOf("<End file sent>") > -1)
                     {
+                        SendMsg("<Sent>");
+                        Logs += $"{i} of {noOfPackets} packets recieved\r\n";
                         break;
+                    }
+                    else
+                    {
+                        Fs.Write(RecData, 0, RecBytes);
+                        SendMsg("<Sent>");
+                        i++;
                     }
                 }
             }
-            Data = "File sent\r\n";
-            TxtMsgServer.AppendText(Data);
-
-            SendMsg("<Sent>");
+            Logs += Data = "File sent\r\n";
             RecieveMessage();
         }
+
         public void SendMsg(string Msg)
         {
             byte[] messageSent = Encoding.UTF8.GetBytes(Msg);
@@ -144,8 +155,8 @@ namespace PC.Classes
         {
             if (client != null)
             {
-                client.Close();
-                streamMsg.Close();
+                SendMsg("<Server stopped>");
+                Thread.Sleep(2000);
             }
             if (server != null)
             {

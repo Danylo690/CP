@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using PC.Classes;
 using System.Threading;
+using System.Net;
 
 namespace PC.Forms
 {
@@ -29,21 +30,16 @@ namespace PC.Forms
         {
             while (true)
             {
-                if (server.Data != "" && server.Data != null)
-                {
-                    this.Invoke(new Action(() => TxtChatServer.AppendText(server.Data)));
-                    server.Data = "";
-                }
+                this.Invoke(new Action(() => TxtChatServer.Text = server.Logs));
             }
         }
 
         private void BtnStartServer_Click(object sender, EventArgs e)
         {
-            TxtChatServer.AppendText("Waiting connection...\r\n");
+            server.Logs += "Waiting connection...\r\n";
             server.StartServer();
-            server.TxtMsgServer = TxtChatServer;
-            //thread = new Thread(new ThreadStart(PrintMessageFromClient));
-            //thread.Start();
+            thread = new Thread(new ThreadStart(PrintMessageFromClient));
+            thread.Start();
 
             BtnStartServer.Enabled = false;
             BtnStopServer.Enabled = true;
@@ -51,7 +47,24 @@ namespace PC.Forms
 
         private void BtnConnectClient_Click(object sender, EventArgs e)
         {
-            client.ConnectToServer();
+            IPAddress address;
+            string ipAddress = "";
+            Int32 port = -1;
+            while (ipAddress == "" && port == -1)
+            {
+                try
+                {
+                    IPAddress.TryParse(TxtIpClient.Text, out address);
+                    ipAddress = TxtIpClient.Text;
+                    Int32.TryParse(TxtPortClient.Text, out port);
+                    client.ConnectToServer(ipAddress, port);
+                }
+                catch (Exception)
+                {
+                    ipAddress = "";
+                    port = -1;
+                }
+            }
             if (client.client != null && client.client.Connected == true)
             {
                 TxtInfo.AppendText("Connected\r\n");
@@ -79,6 +92,7 @@ namespace PC.Forms
         private void BtnStopServer_Click(object sender, EventArgs e)
         {
             server.StopServerWork();
+            thread.Abort();
             BtnStartServer.Enabled = true;
             BtnStopServer.Enabled = false;
         }
