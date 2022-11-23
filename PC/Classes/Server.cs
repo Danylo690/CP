@@ -3,8 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
+using System.Windows.Forms;
 
 namespace PC.Classes
 {
@@ -13,7 +12,7 @@ namespace PC.Classes
         #region Private fields
         private const int bufferSize = 1024;
 
-        private Thread threadRecieveMsg;
+        private Thread threadWaitForConnection;
 
         private NetworkStream streamMsg;
 
@@ -35,50 +34,69 @@ namespace PC.Classes
             IPAddress localAddr = IPAddress.Parse("127.0.0.1");
             server = new TcpListener(localAddr, port);
             server.Start();
-            WaitForConnection();
+            threadWaitForConnection = new Thread(WaitForConnection);
+            threadWaitForConnection.Start();
         }
 
-        public async void WaitForConnection()
+        public void WaitForConnection()
         {
             try
             {
-                client = await server.AcceptTcpClientAsync();
+                client = server.AcceptTcpClient();
                 server.Stop();
-                threadRecieveMsg = new Thread(RecieveMessage);
-                threadRecieveMsg.Start();
                 Data = $"User {client.Client.RemoteEndPoint} successfully connected\r\n";
-            }
-            catch (ObjectDisposedException)
-            {
+                RecieveMessage();
 
+            }
+            catch (SocketException ex) when (ex.ErrorCode == 10004)
+            {
+                Data = "Server stopped";
+            }
+            catch (Exception ex)
+            {
+                string message = $"{ex.Message}";
+                string caption = $"Exception";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
             }
         }
 
         public void RecieveMessage()
         {
-            streamMsg = client.GetStream();
-            byte[] bytes = new Byte[bufferSize];
-            Data = null;
-            int i;
-            while ((i = streamMsg.Read(bytes, 0, bytes.Length)) != 0)
+            try
             {
-                Data = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
-                if (Data.IndexOf("<Disconnect>") > -1)
+                streamMsg = client.GetStream();
+                byte[] bytes = new Byte[bufferSize];
+                int i;
+                while ((i = streamMsg.Read(bytes, 0, bytes.Length)) != 0)
                 {
-                    Data = $"User {client.Client.RemoteEndPoint} successfully disconnected\r\n";
-                    client.Close();
-                    server.Start();
-                    WaitForConnection();
-                    break;
-                }
-                else
-                {
-                    i = streamMsg.Read(bytes, 0, bytes.Length);
-                    fileName = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
-                    RecieveFile(fileName);
+                    Data = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
+                    if (Data.IndexOf("<Disconnect>") > -1)
+                    {
+                        Data = $"User {client.Client.RemoteEndPoint} successfully disconnected\r\n";
+                        streamMsg.Close();
+                        client.Close();
+                        client = null;
+                        server.Start();
+                        WaitForConnection();
+                        break;
+                    }
+                    else
+                    {
+                        i = streamMsg.Read(bytes, 0, bytes.Length);
+                        fileName = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
+                        RecieveFile(fileName);
+                        break;
+                    }
                 }
             }
-            threadRecieveMsg.Abort();
+            catch (Exception ex)
+            {
+                string message = $"{ex.Message}";
+                string caption = "Exception";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
+            }
         }
 
         public void RecieveFile(string fileName)
@@ -86,7 +104,7 @@ namespace PC.Classes
             byte[] RecData = new Byte[bufferSize];
             int RecBytes;
             string path = Environment.CurrentDirectory + $"\\{fileName}";
-            using (FileStream Fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+            using (FileStream Fs = new FileStream(path, FileMode.Create, FileAccess.Write))
             {
                 while ((RecBytes = streamMsg.Read(RecData, 0, RecData.Length)) > 0)
                 {
@@ -96,6 +114,20 @@ namespace PC.Classes
                         break;
                     }
                 }
+            }
+            RecieveMessage();
+        }
+
+        public void StopServerWork()
+        {
+            if (client != null)
+            {
+                client.Close();
+                streamMsg.Close();
+            }
+            if (server != null)
+            {
+                server.Stop();
             }
         }
         #endregion

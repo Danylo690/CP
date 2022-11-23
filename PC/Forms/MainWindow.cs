@@ -2,8 +2,6 @@
 using System.Windows.Forms;
 using PC.Classes;
 using System.Threading;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.IO;
 
 namespace PC.Forms
 {
@@ -31,7 +29,7 @@ namespace PC.Forms
         {
             while (true)
             {
-                if (server.client != null && server.Data != "" && server.Data != null)
+                if (server.Data != "" && server.Data != null)
                 {
                     this.Invoke(new Action(() => TxtChatServer.AppendText(server.Data)));
                     server.Data = "";
@@ -53,7 +51,7 @@ namespace PC.Forms
         private void BtnConnectClient_Click(object sender, EventArgs e)
         {
             client.ConnectToServer();
-            if (client.client != null)
+            if (client.client != null && client.client.Connected == true)
             {
                 TxtInfo.AppendText("Connected\r\n");
             }
@@ -79,20 +77,7 @@ namespace PC.Forms
 
         private void BtnStopServer_Click(object sender, EventArgs e)
         {
-            if (thread != null)
-            {
-                thread.Abort();
-            }
-            if (server.client != null)
-            {
-                server.client.Close();
-            }
-            if (server.server != null)
-            {
-                server.server.Stop();
-                TxtChatServer.AppendText("Server stopped\r\n");
-            }
-
+            server.StopServerWork();
             BtnStartServer.Enabled = true;
             BtnStopServer.Enabled = false;
         }
@@ -127,17 +112,10 @@ namespace PC.Forms
             {
                 thread.Abort();
             }
+            server.StopServerWork();
             if (client.client != null)
             {
                 client.client.Close();
-            }
-            if (server.client != null)
-            {
-                server.client.Close();
-            }
-            if (server.server != null)
-            {
-                server.server.Stop();
             }
         }
         #endregion

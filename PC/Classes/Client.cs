@@ -39,9 +39,7 @@ namespace PC.Classes
         public void DisconnectFromServer() 
         {
             SendMsg("<Disconnect>");
-            clientStream.Close();
-            client.Close();
-            client = null;
+            StopClientWork();
         }
 
         public void SendFile(string path)
@@ -49,11 +47,7 @@ namespace PC.Classes
             byte[] SendingBuffer = null;
             FileStream Fs = new FileStream(path, FileMode.Open, FileAccess.Read);
 
-            //Send file name
-            //byte[] messageSent = Encoding.UTF8.GetBytes($"Sending file {Path.GetFileName(Fs.Name)}");
-            //clientStream.Write(messageSent, 0, messageSent.Length);
             SendMsg($"Sending file {Path.GetFileName(Fs.Name)}");
-
             SendMsg(Path.GetFileName(Fs.Name));
 
             int NoOfPackets = Convert.ToInt32
@@ -82,6 +76,16 @@ namespace PC.Classes
         {
             byte[] messageSent = Encoding.UTF8.GetBytes(data);
             clientStream.Write(messageSent, 0, messageSent.Length);
+        }
+
+        public void StopClientWork()
+        {
+            if (client != null)
+            {
+                clientStream.Close();
+                client.Close();
+                client = null;
+            }
         }
         #endregion
     }

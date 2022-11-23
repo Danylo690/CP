@@ -193,7 +193,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(922, 517);
+            this.ClientSize = new System.Drawing.Size(954, 517);
             this.Controls.Add(this.BtnStopServer);
             this.Controls.Add(this.BtnSendServer);
             this.Controls.Add(this.BtnSendClient);
