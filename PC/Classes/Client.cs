@@ -47,8 +47,11 @@ namespace PC.Classes
             byte[] SendingBuffer = null;
             FileStream Fs = new FileStream(path, FileMode.Open, FileAccess.Read);
 
-            SendMsg($"Sending file {Path.GetFileName(Fs.Name)}");
+            SendMsg($"Sending file {Path.GetFileName(Fs.Name)}\r\n");
+            MsgRecieved();
+
             SendMsg(Path.GetFileName(Fs.Name));
+            MsgRecieved();
 
             int NoOfPackets = Convert.ToInt32
                 (Math.Ceiling(Convert.ToDouble(Fs.Length) / Convert.ToDouble(bufferSize)));
@@ -69,6 +72,7 @@ namespace PC.Classes
                 Fs.Read(SendingBuffer, 0, CurrentPacketLength);
                 clientStream.Write(SendingBuffer, 0, SendingBuffer.Length);
             }
+            MsgRecieved();
             Fs.Close();
         }
 
@@ -76,6 +80,20 @@ namespace PC.Classes
         {
             byte[] messageSent = Encoding.UTF8.GetBytes(data);
             clientStream.Write(messageSent, 0, messageSent.Length);
+        }
+
+        public void MsgRecieved()
+        {
+            byte[] Msg = new byte[bufferSize];
+            while (true)
+            {
+                int i = clientStream.Read(Msg, 0, Msg.Length);
+                string Data = System.Text.Encoding.UTF8.GetString(Msg, 0, i);
+                if (Data.IndexOf("<Sent>") > -1)
+                {
+                    break;
+                }
+            }
         }
 
         public void StopClientWork()

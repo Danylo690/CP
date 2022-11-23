@@ -41,8 +41,9 @@ namespace PC.Forms
         {
             TxtChatServer.AppendText("Waiting connection...\r\n");
             server.StartServer();
-            thread = new Thread(new ThreadStart(PrintMessageFromClient));
-            thread.Start();
+            server.TxtMsgServer = TxtChatServer;
+            //thread = new Thread(new ThreadStart(PrintMessageFromClient));
+            //thread.Start();
 
             BtnStartServer.Enabled = false;
             BtnStopServer.Enabled = true;
@@ -96,13 +97,16 @@ namespace PC.Forms
                 Filter = "All files (*.*)|*.*",
                 FilterIndex = 2,
                 RestoreDirectory = true,
-
+                Multiselect = true,
                 ReadOnlyChecked = true,
                 ShowReadOnly = true
             };
             if (FileDialog.ShowDialog() == DialogResult.OK)
             {
-                client.SendFile(FileDialog.FileName);
+                for (int i = 0; i < FileDialog.FileNames.Length; i++)
+                {
+                    client.SendFile(FileDialog.FileNames[i]);
+                }
             }
         }
 

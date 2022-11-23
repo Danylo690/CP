@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -25,6 +26,8 @@ namespace PC.Classes
         public TcpClient client = null;
 
         public string Data;
+
+        public TextBox TxtMsgServer;
         #endregion
 
         #region Methods
@@ -45,12 +48,14 @@ namespace PC.Classes
                 client = server.AcceptTcpClient();
                 server.Stop();
                 Data = $"User {client.Client.RemoteEndPoint} successfully connected\r\n";
+                TxtMsgServer.AppendText(Data);
                 RecieveMessage();
 
             }
             catch (SocketException ex) when (ex.ErrorCode == 10004)
             {
-                Data = "Server stopped";
+                Data = "Server stopped\n\r";
+                TxtMsgServer.AppendText(Data);
             }
             catch (Exception ex)
             {
@@ -71,20 +76,28 @@ namespace PC.Classes
                 while ((i = streamMsg.Read(bytes, 0, bytes.Length)) != 0)
                 {
                     Data = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
+                    SendMsg("<Sent>");
+
                     if (Data.IndexOf("<Disconnect>") > -1)
                     {
                         Data = $"User {client.Client.RemoteEndPoint} successfully disconnected\r\n";
+                        TxtMsgServer.AppendText(Data);
+
                         streamMsg.Close();
                         client.Close();
                         client = null;
                         server.Start();
                         WaitForConnection();
+                        Data = "";
                         break;
                     }
                     else
                     {
+                        TxtMsgServer.AppendText(Data);
+
                         i = streamMsg.Read(bytes, 0, bytes.Length);
                         fileName = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
+                        SendMsg("<Sent>");
                         RecieveFile(fileName);
                         break;
                     }
@@ -115,7 +128,16 @@ namespace PC.Classes
                     }
                 }
             }
+            Data = "File sent\r\n";
+            TxtMsgServer.AppendText(Data);
+
+            SendMsg("<Sent>");
             RecieveMessage();
+        }
+        public void SendMsg(string Msg)
+        {
+            byte[] messageSent = Encoding.UTF8.GetBytes(Msg);
+            streamMsg.Write(messageSent, 0, messageSent.Length);
         }
 
         public void StopServerWork()
