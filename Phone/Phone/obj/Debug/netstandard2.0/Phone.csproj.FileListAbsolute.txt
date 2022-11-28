@@ -1,0 +1,15 @@
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\bin\Debug\netstandard2.0\Phone.deps.json
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\bin\Debug\netstandard2.0\Phone.dll
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\bin\Debug\netstandard2.0\Phone.pdb
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\obj\Debug\netstandard2.0\Phone.csproj.AssemblyReference.cache
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\obj\Debug\netstandard2.0\Phone.GeneratedMSBuildEditorConfig.editorconfig
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\obj\Debug\netstandard2.0\App.xaml.g.cs
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\obj\Debug\netstandard2.0\MainPage.xaml.g.cs
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\obj\Debug\netstandard2.0\Phone.AssemblyInfoInputs.cache
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\obj\Debug\netstandard2.0\Phone.AssemblyInfo.cs
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\obj\Debug\netstandard2.0\Phone.csproj.CoreCompileInputs.cache
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\obj\Debug\netstandard2.0\XamlC.stamp
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\obj\Debug\netstandard2.0\Phone.dll
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\obj\Debug\netstandard2.0\refint\Phone.dll
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\obj\Debug\netstandard2.0\Phone.pdb
+E:\Studying\4 курс\КС\КП\CP\Phone\Phone\obj\Debug\netstandard2.0\ref\Phone.dll
