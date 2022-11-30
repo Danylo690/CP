@@ -37,7 +37,7 @@ namespace PC.Forms
         private void BtnStartServer_Click(object sender, EventArgs e)
         {
             server.Logs += "Waiting connection...\r\n";
-            server.StartServer();
+            server.StartServer(TxtServerIP.Text);
             thread = new Thread(new ThreadStart(PrintMessageFromClient));
             thread.Start();
 

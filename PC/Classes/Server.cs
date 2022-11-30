@@ -35,10 +35,10 @@ namespace PC.Classes
         #endregion
 
         #region Methods
-        public void StartServer()
+        public void StartServer(string ip)
         {
             Int32 port = 13000;
-            IPAddress localAddr = IPAddress.Parse("192.168.1.107");
+            IPAddress localAddr = IPAddress.Parse(ip);
             server = new TcpListener(localAddr, port);
             server.Start();
             threadWaitForConnection = new Thread(WaitForConnection);
@@ -78,8 +78,6 @@ namespace PC.Classes
                 while ((i = streamMsg.Read(bytes, 0, bytes.Length)) != 0)
                 {
                     Data = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
-                    SendMsg("<Sent>");
-
                     if (Data.IndexOf("<Disconnect>") > -1)
                     {
                         Logs += Data = $"User {client.Client.RemoteEndPoint} successfully disconnected\r\n";
@@ -94,14 +92,19 @@ namespace PC.Classes
                     else
                     {
                         Logs += Data;
+
+                        SendMsg("NeedMsg");
+                        i = streamMsg.Read(bytes, 0, bytes.Length);
+                        Data = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
+                        Logs += Data;
+
+                        SendMsg("NeedName");
                         i = streamMsg.Read(bytes, 0, bytes.Length);
                         fileName = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
-                        SendMsg("<Sent>");
 
+                        SendMsg("NeedNumberOfPackets");
                         i = streamMsg.Read(bytes, 0, bytes.Length);
                         noOfPackets = int.Parse(System.Text.Encoding.UTF8.GetString(bytes, 0, i));
-                        SendMsg("<Sent>");
-
                         RecieveFile(fileName);
                         break;
                     }
@@ -124,19 +127,21 @@ namespace PC.Classes
             string path = Environment.CurrentDirectory + $"\\{fileName}";
             using (FileStream Fs = new FileStream(path, FileMode.Create, FileAccess.Write))
             {
+                SendMsg("NeedPacket");
                 while ((RecBytes = streamMsg.Read(RecData, 0, RecData.Length)) > 0)
                 {
                     string data = System.Text.Encoding.UTF8.GetString(RecData, 0, RecBytes);
-                    if (data.IndexOf("<End file sent>") > -1)
+                    if ((i + 1) == noOfPackets)
                     {
-                        SendMsg("<Sent>");
-                        Logs += $"{i} of {noOfPackets} packets recieved\r\n";
+                        Fs.Write(RecData, 0, RecBytes);
+                        Logs += $"{i + 1} of {noOfPackets} packets recieved\r\n";
+                        SendMsg("WaitNextFile");
                         break;
                     }
                     else
                     {
                         Fs.Write(RecData, 0, RecBytes);
-                        SendMsg("<Sent>");
+                        SendMsg("NeedPacket");
                         i++;
                     }
                 }

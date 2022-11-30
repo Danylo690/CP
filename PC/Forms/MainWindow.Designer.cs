@@ -125,7 +125,7 @@
             this.TxtServerIP.Name = "TxtServerIP";
             this.TxtServerIP.Size = new System.Drawing.Size(313, 22);
             this.TxtServerIP.TabIndex = 1;
-            this.TxtServerIP.Text = "192.168.1.107: 13000";
+            this.TxtServerIP.Text = "192.168.1.107";
             // 
             // TxtChatServer
             // 
