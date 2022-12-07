@@ -5,11 +5,15 @@ import {
   Button,
   TextInput,
   Text,
+  NativeModules,
+  PermissionsAndroid
 } from 'react-native'
 import TcpSocket from 'react-native-tcp-socket';
 import FilePicker from 'react-native-document-picker';
 import {base64 } from "rfc4648";
-import RNFS from "react-native-fs"
+import RNFS from "react-native-fs";
+
+const {FTPServer} = NativeModules;
 
 class App extends Component {
   constructor(props)
@@ -22,6 +26,7 @@ class App extends Component {
       host: '192.168.1.20',
       port: 13000,
       isConnected: false,
+      text: '',
     }
     this.fileSentOptions =
     {
@@ -39,6 +44,13 @@ class App extends Component {
     this.SwitchButton = this.SwitchButton.bind(this);
     this.PickFiles = this.PickFiles.bind(this);
     this.SendFile = this.SendFile.bind(this);
+    this.CreateFTPServer = this.CreateFTPServer.bind(this);
+  }
+
+  CreateFTPServer()
+  {
+    FTPServer.StartFTPServer();
+    this.setState({text: "FTP server is running"});
   }
 
   async ConnectToServer() 
@@ -196,6 +208,13 @@ class App extends Component {
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
         />
+        <Button
+        onPress={this.CreateFTPServer}
+        title="Create FTP server"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
+        />
+        <Text>{this.state.text}</Text>
       </SafeAreaView>
     )
   }

@@ -133,7 +133,9 @@ android {
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
-
+    packagingOptions {
+       resources.excludes.add("META-INF/*")
+    }
     defaultConfig {
         applicationId "com.phonereact"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -249,6 +251,8 @@ android {
 }
 
 dependencies {
+    implementation group: 'org.apache.ftpserver', name: 'ftpserver-core', version: '1.2.0'
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion

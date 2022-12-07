@@ -1,5 +1,15 @@
 package com.phonereact;
 
+import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
+
+import androidx.core.app.ActivityCompat;
+
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
@@ -20,6 +30,35 @@ public class MainActivity extends ReactActivity {
    * you can specify the renderer you wish to use - the new renderer (Fabric) or the old renderer
    * (Paper).
    */
+
+   @Override
+  protected void onCreate(Bundle savedInstanceState)
+  {
+    super.onCreate(savedInstanceState);
+    ActivityCompat.requestPermissions(
+    this,
+    new String[]{
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.MANAGE_EXTERNAL_STORAGE
+    },
+    1
+    );
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      if (Environment.isExternalStorageManager()){
+
+          // If you don't have access, launch a new activity to show the user the system's dialog
+          // to allow access to the external storage
+      }else{
+          Intent intent = new Intent();
+          intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+          Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+          intent.setData(uri);
+          startActivity(intent);
+      }
+    }
+  }
+  
   @Override
   protected ReactActivityDelegate createReactActivityDelegate() {
     return new MainActivityDelegate(this, getMainComponentName());
