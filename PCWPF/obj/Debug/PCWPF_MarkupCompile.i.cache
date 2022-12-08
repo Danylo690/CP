@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 E:\Studying\4 курс\КС\КП\CP\PCWPF\App.xaml
-4-36609134
+71103217676
 
-72042777066
-15-1063958457
-MainWindow.xaml;Styles\ButtonStyles.xaml;Styles\UIColorPallete.xaml;Views\FTPConnectView.xaml;
+17480715428
+162011027991
+Styles\ButtonStyles.xaml;Styles\UIColorPallete.xaml;Views\ConnectFTPServerView.xaml;Views\CreateFTPServerView.xaml;Views\FTPClientFileManagerView.xaml;Views\FTPServerFileManagerView.xaml;Views\MainWindowView.xaml;
 
-True
+False
 

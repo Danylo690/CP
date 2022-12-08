@@ -38,6 +38,9 @@
     <Reference Include="FontAwesome.Sharp, Version=6.1.1.0, Culture=neutral, PublicKeyToken=d16d1e4e568ec10f, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.Sharp.6.1.1\lib\net472\FontAwesome.Sharp.dll</HintPath>
     </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
@@ -59,19 +62,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Views\FTPConnectView.xaml.cs">
-      <DependentUpon>FTPConnectView.xaml</DependentUpon>
+    <Compile Include="ViewModels\ConnectFTPServerViewModel.cs" />
+    <Compile Include="ViewModels\CreateFTPServerViewModel.cs" />
+    <Compile Include="ViewModels\FTPClientFileManagerViewModel.cs" />
+    <Compile Include="ViewModels\FTPServerFileManagerViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\ViewModelCommand.cs" />
+    <Compile Include="Views\ConnectFTPServerView.xaml.cs">
+      <DependentUpon>ConnectFTPServerView.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="Views\CreateFTPServerView.xaml.cs">
+      <DependentUpon>CreateFTPServerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FTPClientFileManagerView.xaml.cs">
+      <DependentUpon>FTPClientFileManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FTPServerFileManagerView.xaml.cs">
+      <DependentUpon>FTPServerFileManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindowView.xaml.cs">
+      <DependentUpon>MainWindowView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Styles\ButtonStyles.xaml">
@@ -82,7 +96,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FTPConnectView.xaml">
+    <Page Include="Views\ConnectFTPServerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateFTPServerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FTPClientFileManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FTPServerFileManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -116,19 +146,24 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\FTPConnectBackground.jpg" />
+    <Resource Include="Images\Logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\FTPConnectBackground2.jpg" />
+    <Resource Include="Images\MainWindowBackground.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Logo2.png" />
+    <Resource Include="Images\AndroidIpLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Logo6.png" />
+    <Resource Include="Images\PCIpLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PortLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\IPLogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

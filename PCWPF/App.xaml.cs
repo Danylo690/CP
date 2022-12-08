@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using PCWPF.Views;
 
 namespace PCWPF
 {
@@ -13,5 +9,17 @@ namespace PCWPF
     /// </summary>
     public partial class App : Application
     {
+        protected void ApplicationStart(object sender, EventArgs e)
+        {
+            var mainView = new MainWindowView();
+            mainView.Show();
+            mainView.IsVisibleChanged += (s, ev) =>
+            {
+                if (mainView.IsVisible == false && mainView.IsLoaded)
+                {
+                    mainView.Close();
+                }
+            };
+        }
     }
 }

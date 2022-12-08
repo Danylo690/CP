@@ -1,0 +1,203 @@
+﻿<Window x:Class="PCWPF.Views.ConnectFTPServerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:local="clr-namespace:PCWPF.Views"
+        xmlns:viewModel="clr-namespace:PCWPF.ViewModels"
+        mc:Ignorable="d"
+        Title="ConnectFTPServer" 
+        Height="600" 
+        Width="1000"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="True">
+
+    <Window.DataContext>
+        <viewModel:ConnectFTPServerViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </Window.Resources>
+
+    <Window.Visibility>
+        <Binding Path="IsViewVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}"/>
+    </Window.Visibility>
+
+    <Border CornerRadius="10">
+        <Border.Background>
+            <ImageBrush ImageSource="/Images/MainWindowBackground.jpg"/>
+        </Border.Background>
+        <Border 
+            CornerRadius="10"
+            BorderThickness="2">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0" Opacity="0.6">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="0.75"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <!--#region Control panel-->
+                <StackPanel 
+                    Grid.Row="0"
+                    Orientation="Horizontal"
+                    FlowDirection="RightToLeft"
+                    Background="Transparent">
+                    <Button 
+                        x:Name="CloseBtn"
+                        Click="CloseBtn_Click"
+                        Style="{StaticResource controlButton}"
+                        Tag="{StaticResource color4}">
+                        <fa:IconImage Icon="Xmark" Style="{StaticResource controlButtonIcon}"/>
+                    </Button>
+                    <Button 
+                        x:Name="MinimizeBtn"
+                        Click="MinimizeBtn_Click"
+                        Tag="{StaticResource color8}"
+                        Style="{StaticResource controlButton}">
+                        <fa:IconImage Icon="WindowMinimize" Style="{StaticResource controlButtonIcon}"/>
+                    </Button>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Connection panel-->
+                <StackPanel 
+                    Width="220"
+                    Grid.Row="1"
+                    Orientation="Vertical"
+                    Margin="0,35,0,0">
+                    <Image 
+                        Source="/Images/Logo.png"
+                        Width="150" Height="150"/>
+                    <TextBlock 
+                        Text="FILE PORTAL"
+                        Foreground="White"
+                        FontSize="25"
+                        FontWeight="Medium"
+                        FontFamily="Montserrat"
+                        HorizontalAlignment="Center"/>
+                    <TextBlock 
+                        Text="Enter the IP address and port of the FTP server on Android to connect"
+                        Foreground="White"
+                        FontSize="12"
+                        FontWeight="Medium"
+                        FontFamily="Montserrat"
+                        TextWrapping="Wrap"
+                        TextAlignment="Center"
+                        Margin="0,5,0,0"/>
+                    
+                    <!--#region IP-->
+                    <TextBlock 
+                        Text="IP Address"
+                        Foreground="White"
+                        FontSize="12"
+                        FontWeight="Medium"
+                        FontFamily="Montserrat"                             
+                        Margin="0,35,0,0"/>
+                    <TextBox 
+                        x:Name="IPTxt"
+                        FontSize="13"
+                        FontWeight="Medium"
+                        FontFamily="Montserrat"                            
+                        Foreground="White"
+                        CaretBrush="LightGray"
+                        BorderBrush="DarkGray"
+                        BorderThickness="0,0,0,2"
+                        Height="28"
+                        VerticalContentAlignment="Center"
+                        Margin="0,5,0,0"
+                        Padding="30,0,0,0">
+                        <TextBox.Background>
+                            <ImageBrush ImageSource="/Images/IPLogo.png"
+                                        Stretch="Uniform"
+                                        AlignmentX="Left"/>
+                        </TextBox.Background>
+                    </TextBox>
+                    <!--#endregion-->
+                    
+                    <!--#region Port-->
+                    <TextBlock 
+                        Text="Port"
+                        Foreground="White"
+                        FontSize="12"
+                        FontWeight="Medium"
+                        FontFamily="Montserrat"                             
+                        Margin="0,35,0,0"/>
+                    <TextBox 
+                        x:Name="PortTxt"
+                        FontSize="13"
+                        FontWeight="Medium"
+                        FontFamily="Montserrat"                            
+                        Foreground="White"
+                        CaretBrush="LightGray"
+                        BorderBrush="DarkGray"
+                        BorderThickness="0,0,0,2"
+                        Height="28"
+                        VerticalContentAlignment="Center"
+                        Margin="0,5,0,0"
+                        Padding="30,0,0,0">
+                        <TextBox.Background>
+                            <ImageBrush ImageSource="/Images/PortLogo.png"
+                                        Stretch="Uniform"
+                                        AlignmentX="Left"/>
+                        </TextBox.Background>
+                    </TextBox>
+                    <!--#endregion-->
+                    
+                    <!--#region Connect button-->
+                    <Button 
+                        Command="{Binding ConnectCommand}"
+                        x:Name="ConnectBtn"
+                        BorderThickness="0"
+                        Foreground="White"
+                        FontSize="35"
+                        FontFamily="Montserrat"
+                        Cursor="Hand"
+                        Grid.Column="1"
+                        Margin="0,25,0,0"
+                        Style="{StaticResource submitButton}">
+                        <TextBlock Text="Connect" TextAlignment="Center" Style="{StaticResource submitButtonText}"/>
+                    </Button>
+                    <!--#endregion-->
+
+                    <!--#region Cancel button-->
+                    <Button 
+                        Command="{Binding CancelCommand}"
+                        x:Name="CancelBtn"
+                        BorderThickness="0"
+                        Foreground="White"
+                        FontSize="35"
+                        FontFamily="Montserrat"
+                        Cursor="Hand"
+                        Grid.Column="1"
+                        Margin="0,25,0,0"
+                        Style="{StaticResource submitButton}">
+                        <TextBlock Text="Cancel" TextAlignment="Center" Style="{StaticResource submitButtonText}"/>
+                    </Button>
+                    <!--#endregion-->
+                    
+                </StackPanel>
+
+                <!--#endregion-->
+                
+            </Grid>
+        </Border>
+    </Border>
+</Window>

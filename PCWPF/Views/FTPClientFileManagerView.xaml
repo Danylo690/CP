@@ -1,0 +1,220 @@
+﻿<Window x:Class="PCWPF.Views.FTPClientFileManagerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:local="clr-namespace:PCWPF.Views"
+        xmlns:viewModel="clr-namespace:PCWPF.ViewModels"
+        mc:Ignorable="d"
+        Title="FTPClientFileManagerView"
+        Height="600" 
+        Width="1000"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="True">
+    
+    <Window.DataContext>
+        <viewModel:FTPClientFileManagerViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </Window.Resources>
+
+    <Window.Visibility>
+        <Binding Path="IsViewVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}"/>
+    </Window.Visibility>
+
+    <Border 
+            CornerRadius="10"
+            BorderThickness="2">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#462AD8" Offset="0"/>
+                <GradientStop Color="#DA34AE" Offset="0.75"/>
+                <GradientStop Color="#8A16C1" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!--#region Navigation menu-->
+            <Border 
+                CornerRadius="10,0,0,10"
+                Grid.Column="0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
+                        <GradientStop Color="{StaticResource secondaryBackColor1}" Offset="0"/>
+                        <GradientStop Color="{StaticResource secondaryBackColor2}" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    
+                    <!--#region Logo-->
+                    <StackPanel 
+                        Orientation="Horizontal"
+                        Height="35"
+                        Margin="15,25,0,40">
+                        <Image Source="/Images/Logo.png" Opacity="0.7"/>
+                        <TextBlock
+                            Text="FILE PORTAL"
+                            Foreground="{StaticResource titleColor2}"
+                            FontSize="20"
+                            FontFamily="Montserrat"
+                            FontWeight="Medium"
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region Menu buttons-->
+                    <RadioButton 
+                        Command="{Binding ShowPCFilesViewCommand}"
+                        Style="{StaticResource fileManagerMenuButton}"
+                        Tag="{StaticResource color3}">
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <fa:IconImage Icon="Laptop" Style="{StaticResource fileManagerMenuButtonIcon}"/>
+                            <TextBlock Text="PC Files" Style="{StaticResource fileManagerMenuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton 
+                        Command="{Binding ShowAndroidFilesViewCommand}"
+                        Style="{StaticResource fileManagerMenuButton}"
+                        Tag="{StaticResource color5}">
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <fa:IconImage Icon="MobileScreen" Style="{StaticResource fileManagerMenuButtonIcon}"/>
+                            <TextBlock Text="Android Files" Style="{StaticResource fileManagerMenuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton 
+                        Command="{Binding ShowMessageHistoryViewCommand}"
+                        Style="{StaticResource fileManagerMenuButton}"
+                        Tag="{StaticResource color6}">
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <fa:IconImage Icon="BookOpen" Style="{StaticResource fileManagerMenuButtonIcon}"/>
+                            <TextBlock Text="Message History" Style="{StaticResource fileManagerMenuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton 
+                        Command="{Binding ShowInformationViewCommand}"
+                        Style="{StaticResource fileManagerMenuButton}"
+                        Tag="{StaticResource color7}">
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <fa:IconImage Icon="CircleQuestion" Style="{StaticResource fileManagerMenuButtonIcon}"/>
+                            <TextBlock Text="Information" Style="{StaticResource fileManagerMenuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <!--#endregion-->
+                    
+                </StackPanel>
+            </Border>
+            
+            <!--#endregion-->
+
+            <!--#region Content-->
+            <Border 
+                CornerRadius="0,10,10,0"
+                Grid.Column="1">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
+                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
+                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!--#region Control panel-->
+                    <StackPanel 
+                        Grid.Row="0"
+                        Orientation="Horizontal"
+                        FlowDirection="RightToLeft"
+                        Background="Transparent">
+                        <Button 
+                            x:Name="CloseBtn"
+                            Click="CloseBtn_Click"
+                            Style="{StaticResource controlButton}"
+                            Tag="{StaticResource color4}">
+                            <fa:IconImage Icon="Xmark" Style="{StaticResource controlButtonIcon}"/>
+                        </Button>
+                        <Button 
+                            x:Name="MinimizeBtn"
+                            Click="MinimizeBtn_Click"
+                            Tag="{StaticResource color8}"
+                            Style="{StaticResource controlButton}">
+                            <fa:IconImage Icon="WindowMinimize" Style="{StaticResource controlButtonIcon}"/>
+                        </Button>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region Header panel-->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--#region Caption-->
+                        <StackPanel Grid.Column="0"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center">
+                            <fa:IconImage Icon="{Binding Icon}"
+                                          Height="20"
+                                          Width="20"
+                                          Foreground="{StaticResource titleColor2}"
+                                          Margin="35,0,10,0"/>
+
+                            <TextBlock Text="{Binding Caption}"
+                                       Foreground="{StaticResource titleColor2}"
+                                       FontSize="16"
+                                       FontFamily="Montserrat"
+                                       FontWeight="Medium"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region Connection information-->
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    FlowDirection="RightToLeft"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,10,0">
+                            <TextBlock Text="Address: ftp//192.168.1.105:2121"
+                                       Foreground="{StaticResource titleColor3}"
+                                       FontFamily="Montserrat"
+                                       FontSize="12"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region Context panel-->
+                    <ContentControl 
+                        Content="{Binding CurrentChildView}"
+                        Grid.Row="2"
+                        Margin="25"/>
+                    <!--#endregion-->
+                    
+                </Grid>
+            </Border>
+            <!--#endregion-->
+        </Grid>
+    </Border>
+</Window>
