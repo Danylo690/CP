@@ -164,5 +164,104 @@
     </Style>
     
     <!--#endregion-->
+
+    <!--#region File manager button-->
+    <Style x:Key="FileManagerButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Margin" Value="0,0,5,0"/>
+        <Setter Property="Width" Value="60"/>
+        <Setter Property="Opacity" Value="0.7"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border
+                        Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="Background" Value="{DynamicResource panelActiveColor}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Opacity" Value="0.6"/>
+                <Setter Property="Background" Value="{DynamicResource panelActiveColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style x:Key="FileManagerButtonIcon" TargetType="fa:IconImage">
+        <Setter Property="Foreground" Value="{DynamicResource titleColor1}"/>
+        <Setter Property="Width" Value="25"/>
+        <Setter Property="Height" Value="25"/>
+        <Setter Property="Margin" Value="0,0,0,3"/>
+    </Style>
+    
+    <Style x:Key="FileManagerButtonText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource titleColor1}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Montserrat"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="FontSize" Value="11"/>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region File manager navigation button-->
+    <Style x:Key="FileManagerNavigationButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Margin" Value="0,0,10,0"/>
+        <Setter Property="Width" Value="35"/>
+        <Setter Property="Opacity" Value="0.7"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border
+                        Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="Background" Value="{DynamicResource panelActiveColor}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Opacity" Value="0.6"/>
+                <Setter Property="Background" Value="{DynamicResource panelActiveColor}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" Value="0.3"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="FileManagerNavigationButtonIcon" TargetType="fa:IconImage">
+        <Setter Property="Foreground" Value="{DynamicResource titleColor1}"/>
+        <Setter Property="Width" Value="25"/>
+        <Setter Property="Height" Value="25"/>
+    </Style>
+
+    <Style x:Key="FileManagerNavigationPathBorder" TargetType="Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource titleColor1}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Width" Value="595"/>
+        <Setter Property="Height" Value="23"/>
+        <Setter Property="Opacity" Value="0.7"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <!--#endregion-->
     
 </ResourceDictionary>

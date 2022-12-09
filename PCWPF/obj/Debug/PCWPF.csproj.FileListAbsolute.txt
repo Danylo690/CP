@@ -26,7 +26,8 @@ E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\CreateFTPServerView.g.
 E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\CreateFTPServerView.baml
 E:\Studying\4 курс\КС\КП\CP\PCWPF\bin\Debug\FontAwesome.WPF.dll
 E:\Studying\4 курс\КС\КП\CP\PCWPF\bin\Debug\FontAwesome.WPF.xml
-E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\FTPClientFileManagerView.g.cs
-E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\FTPServerFileManagerView.g.cs
-E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\FTPClientFileManagerView.baml
-E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\FTPServerFileManagerView.baml
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Styles\DataGridStyle.baml
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\FileManager.g.cs
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\FileManager.baml
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\FTPClientContentView.g.cs
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\FTPClientContentView.baml

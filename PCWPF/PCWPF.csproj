@@ -62,11 +62,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\FileInformation.cs" />
+    <Compile Include="Models\FTPClient.cs" />
+    <Compile Include="Models\FTPServer.cs" />
+    <Compile Include="Models\PCFileManager.cs" />
     <Compile Include="ViewModels\ConnectFTPServerViewModel.cs" />
     <Compile Include="ViewModels\CreateFTPServerViewModel.cs" />
-    <Compile Include="ViewModels\FTPClientFileManagerViewModel.cs" />
-    <Compile Include="ViewModels\FTPServerFileManagerViewModel.cs" />
+    <Compile Include="ViewModels\FTPClientContentViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\FileManagerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelCommand.cs" />
     <Compile Include="Views\ConnectFTPServerView.xaml.cs">
@@ -75,11 +79,8 @@
     <Compile Include="Views\CreateFTPServerView.xaml.cs">
       <DependentUpon>CreateFTPServerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FTPClientFileManagerView.xaml.cs">
-      <DependentUpon>FTPClientFileManagerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FTPServerFileManagerView.xaml.cs">
-      <DependentUpon>FTPServerFileManagerView.xaml</DependentUpon>
+    <Compile Include="Views\FTPClientContentView.xaml.cs">
+      <DependentUpon>FTPClientContentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
@@ -88,7 +89,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\FileManager.xaml.cs">
+      <DependentUpon>FileManager.xaml</DependentUpon>
+    </Compile>
     <Page Include="Styles\ButtonStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\DataGridStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -104,15 +112,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FTPClientFileManagerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FTPServerFileManagerView.xaml">
+    <Page Include="Views\FTPClientContentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FileManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -144,20 +152,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\MainWindowBackground.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\AndroidIpLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\PCIpLogo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\PortLogo.png" />

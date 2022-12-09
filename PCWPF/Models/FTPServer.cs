@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PCWPF.ViewModels
+namespace PCWPF.Models
 {
-    public class FTPServerFileManagerViewModel : ViewModelBase
+    internal class FTPServer
     {
     }
 }

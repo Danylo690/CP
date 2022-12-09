@@ -6,9 +6,9 @@ namespace PCWPF.Views
     /// <summary>
     /// Interaction logic for FTPClientFileManagerView.xaml
     /// </summary>
-    public partial class FTPClientFileManagerView : Window
+    public partial class FTPClientContentView : Window
     {
-        public FTPClientFileManagerView()
+        public FTPClientContentView()
         {
             InitializeComponent();
         }

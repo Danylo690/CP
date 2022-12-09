@@ -2,6 +2,9 @@
 using System.Windows.Input;
 using System.Net;
 using PCWPF.Views;
+using PCWPF.Models;
+using System.Runtime.InteropServices.ComTypes;
+using System.Threading;
 
 namespace PCWPF.ViewModels
 {
@@ -12,6 +15,7 @@ namespace PCWPF.ViewModels
         private string _port;
         private string _errorMessage;
         private bool _isViewVisible = true;
+        private FTPClient ftpClient;
         #endregion
 
         #region Properties
@@ -58,7 +62,8 @@ namespace PCWPF.ViewModels
         #region Constructors
         public ConnectFTPServerViewModel()
         {
-            ConnectCommand = new ViewModelCommand(ExecuteConnectCommand, CanExecuteConnectCommand);
+            ftpClient = new FTPClient();
+            ConnectCommand = new ViewModelCommand(ExecuteConnectCommand);
             CancelCommand = new ViewModelCommand(ExecuteCancelCommand);
          }
 
@@ -76,43 +81,22 @@ namespace PCWPF.ViewModels
             IsViewVisible = false;
         }
 
-        private bool CanExecuteConnectCommand(object obj)
-        {
-            return true;
-            //try
-            //{
-            //    bool validData;
-            //    IPAddress outAddress;
-            //    if (string.IsNullOrEmpty(IpAddress) ||
-            //        !IPAddress.TryParse(IpAddress, out outAddress) ||
-            //        Port.Length < 4)
-            //    {
-            //        validData = false;
-            //    }
-            //    else
-            //    {
-            //        validData = true;
-            //    }
-            //    return validData;
-            //}
-            //catch (Exception ex)
-            //{
-            //    return false;
-            //}
-        }
-
         private void ExecuteConnectCommand(object obj)
         {
-            var fileManager = new FTPClientFileManagerView();
-            fileManager.Show();
-            fileManager.IsVisibleChanged += (s, ev) =>
+            if (ftpClient.Connect(IpAddress, Port))
             {
-                if (fileManager.IsVisible == false && fileManager.IsLoaded)
+                Thread.SetData(Thread.GetNamedDataSlot("Client"), ftpClient);
+                var fileManager = new FTPClientContentView();
+                fileManager.Show();
+                fileManager.IsVisibleChanged += (s, ev) =>
                 {
-                    fileManager.Close();
-                }
-            };
-            IsViewVisible = false;
+                    if (fileManager.IsVisible == false && fileManager.IsLoaded)
+                    {
+                        fileManager.Close();
+                    }
+                };
+                IsViewVisible = false;
+            }
         }
         #endregion
     }

@@ -112,6 +112,7 @@
                         FontFamily="Montserrat"                             
                         Margin="0,35,0,0"/>
                     <TextBox 
+                        Text="{Binding IpAddress}"
                         x:Name="IPTxt"
                         FontSize="13"
                         FontWeight="Medium"
@@ -141,6 +142,7 @@
                         FontFamily="Montserrat"                             
                         Margin="0,35,0,0"/>
                     <TextBox 
+                        Text="{Binding Port}"
                         x:Name="PortTxt"
                         FontSize="13"
                         FontWeight="Medium"
