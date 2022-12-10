@@ -23,7 +23,7 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
         <DataTemplate DataType="{x:Type viewModel:FileManagerViewModel}">
-            <local:FileManager/>
+            <local:FileManagerView/>
         </DataTemplate>
     </Window.Resources>
 

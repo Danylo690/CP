@@ -97,6 +97,7 @@ namespace PCWPF.ViewModels
         {
             files = client.List("");
             Thread.SetData(Thread.GetNamedDataSlot("Files"), files);
+            Thread.SetData(Thread.GetNamedDataSlot("ManagerMode"), "Android");
             CurrentChildView = new FileManagerViewModel();
             Caption = "Android Files";
             Icon = IconChar.MobileScreen;
@@ -104,8 +105,10 @@ namespace PCWPF.ViewModels
 
         private void ExecuteShowPCFilesViewCommand(object obj)
         {
-            files = new List<FileInformation>();
+            files = pcFileManager.List("");
             Thread.SetData(Thread.GetNamedDataSlot("Files"), files);
+            Thread.SetData(Thread.GetNamedDataSlot("PCFileManager"), pcFileManager);
+            Thread.SetData(Thread.GetNamedDataSlot("ManagerMode"), "PC");
             CurrentChildView = new FileManagerViewModel();
             Caption = "PC Files";
             Icon = IconChar.Laptop;

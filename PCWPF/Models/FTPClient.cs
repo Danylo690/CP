@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Shapes;
@@ -113,6 +114,109 @@ namespace PCWPF.Models
             {
                 return null;
             } 
+        }
+
+        public void Download(List<FileInformation> filesToDownload, string path)
+        {
+            foreach (FileInformation fileToDownload in filesToDownload)
+            {
+                if (fileToDownload.IsFolder)
+                {
+                    string newFolderPath = $"{path}\\{fileToDownload.Name}";
+                    newFolderPath = IsFolderExist(newFolderPath);
+                    List<FileInformation> filesInFolder = List($"{fileToDownload.Path}/{fileToDownload.Name}");
+                    Download(filesInFolder, newFolderPath);
+                    continue;
+                }
+                string address = $"ftp://{IpAddress}:{Port}{fileToDownload.Path}{fileToDownload.Name}";
+                ftpRequest = (FtpWebRequest)WebRequest.Create(address);
+                ftpRequest.Method = WebRequestMethods.Ftp.DownloadFile;
+                FileStream file = new FileStream($"{path}\\{fileToDownload.Name}", FileMode.Create, FileAccess.ReadWrite);
+                ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
+                Stream responseStream = ftpResponse.GetResponseStream();
+                byte[] buffer = new byte[1024];
+                int size = 0;
+                while ((size = responseStream.Read(buffer, 0, 1024)) > 0)
+                {
+                    file.Write(buffer, 0, size);
+                }
+                ftpResponse.Close();
+                file.Close();
+                responseStream.Close();
+            }
+        }
+
+        public void Upload(List<FileInformation> filesToUpload, string path)
+        {
+            PCFileManager pCFileManager = (PCFileManager)Thread.GetData(Thread.GetNamedDataSlot("PCFileManager"));
+            foreach (FileInformation fileToUpload in filesToUpload)
+            {
+                if (fileToUpload.IsFolder)
+                {
+                    string newFolderPath = $"{path}/{fileToUpload.Name}";
+                    newFolderPath = IsAndroidFolderExist(newFolderPath);
+                    List<FileInformation> filesInFolder = pCFileManager.List($"{fileToUpload.Path}");
+                    Upload(filesInFolder, newFolderPath);
+                    continue;
+                }
+                FileStream file = new FileStream($"{fileToUpload.Path}", FileMode.Open, FileAccess.ReadWrite);
+                string address = $"ftp://{IpAddress}:{Port}{path}/{fileToUpload.Name}";
+                ftpRequest = (FtpWebRequest)WebRequest.Create(address);
+                ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
+
+                Stream writer = ftpRequest.GetRequestStream();
+                byte[] buffer = new byte[file.Length];
+                file.Read(buffer, 0, buffer.Length);
+
+                writer.Write(buffer, 0, buffer.Length);
+
+                file.Close();
+                writer.Close();
+            }
+        }
+
+        public string IsFolderExist(string newFolderPath, string oldFolderPath = "", int i = 2)
+        {
+            if (oldFolderPath == "")
+            {
+                oldFolderPath = newFolderPath;
+            }
+            if (!Directory.Exists(newFolderPath))
+            {
+                Directory.CreateDirectory(newFolderPath);
+                return newFolderPath;
+            }
+            else
+            {
+                return IsFolderExist(oldFolderPath + i, oldFolderPath, ++i);
+            }
+        }
+
+        public string IsAndroidFolderExist(string newFolderPath, string oldFolderPath = "", int i = 2)
+        {
+            if (oldFolderPath == "")
+            {
+                oldFolderPath = newFolderPath;
+            }
+            List<FileInformation> filesInDir = List(newFolderPath);
+            if (filesInDir == null)
+            {
+                Mkdir(newFolderPath);
+                return newFolderPath;
+            }
+            else
+            {
+                return IsAndroidFolderExist(oldFolderPath + i, oldFolderPath, ++i);
+            }
+        }
+
+        public void Mkdir(string path)
+        {
+            string address = $"ftp://{IpAddress}:{Port}{path}";
+            ftpRequest = (FtpWebRequest)WebRequest.Create(address);
+            ftpRequest.Method = WebRequestMethods.Ftp.MakeDirectory;
+            ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
+            ftpResponse.Close();
         }
         #endregion
     }
