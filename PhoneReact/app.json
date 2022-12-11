@@ -1,4 +1,8 @@
 {
   "name": "PhoneReact",
-  "displayName": "PhoneReact"
+  "displayName": "PhoneReact",
+  "theme": {
+    "primaryColor": "#4f6d7a",
+    "backgroundColor": "#ffffff"
+  }
 }

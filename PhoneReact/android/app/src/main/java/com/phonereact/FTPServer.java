@@ -56,7 +56,7 @@ public class FTPServer extends ReactContextBaseJavaModule {
     public FTPServer(@Nullable ReactApplicationContext reactContext) {
         super(reactContext);
     }
-
+     FtpServer server;
     @NonNull
     @Override
     public String getName() {
@@ -85,11 +85,25 @@ public class FTPServer extends ReactContextBaseJavaModule {
 
             serverFactory.getUserManager().save(user); 
 
-            FtpServer server = serverFactory.createServer();  
+            server = serverFactory.createServer();  
             server.start();
         }
         catch (Exception ex) {
 
         } 
     }
+    @ReactMethod public void EndFTPServer()
+    {
+        try {
+            if ((server != null) && (!server.isStopped())) 
+             {
+        server.stop();
+             }   
+            }
+        catch (Exception ex) 
+            {
+
+            } 
+    }
+
 }
