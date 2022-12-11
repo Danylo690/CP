@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="WindowBlur" TargetType="Window">
+        <Style.Triggers>
+            <Trigger Property="IsActive" Value="False">
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <BlurEffect 
+                            Radius="5"
+                            RenderingBias="Quality"
+                            KernelType="Gaussian"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

@@ -14,8 +14,8 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
-        AllowsTransparency="True">
-
+        AllowsTransparency="True"
+        Style="{StaticResource WindowBlur}">
     <Window.DataContext>
         <viewModel:FTPClientContentViewModel/>
     </Window.DataContext>
@@ -25,15 +25,17 @@
         <DataTemplate DataType="{x:Type viewModel:FileManagerViewModel}">
             <local:FileManagerView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:MessageHistoryViewModel}">
+            <local:MessagesHistoryView/>
+        </DataTemplate>
     </Window.Resources>
 
     <Window.Visibility>
         <Binding Path="IsViewVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}"/>
     </Window.Visibility>
-
     <Border 
-            CornerRadius="10"
-            BorderThickness="2">
+        CornerRadius="10"
+        BorderThickness="2">
         <Border.BorderBrush>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#462AD8" Offset="0"/>

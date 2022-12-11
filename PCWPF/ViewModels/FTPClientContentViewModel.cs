@@ -1,11 +1,7 @@
 ﻿using FontAwesome.Sharp;
 using PCWPF.Models;
-using PCWPF.Views;
-using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace PCWPF.ViewModels
@@ -20,6 +16,7 @@ namespace PCWPF.ViewModels
         private FTPClient client;
         private List<FileInformation> files;
         private PCFileManager pcFileManager;
+        private List<Log> logs;
         #endregion
 
         #region Properties
@@ -65,7 +62,6 @@ namespace PCWPF.ViewModels
         public ICommand ShowAndroidFilesViewCommand { get; }
         public ICommand ShowMessageHistoryViewCommand { get; }
         public ICommand ShowInformationViewCommand { get; }
-
         #endregion
 
         #region Constructors
@@ -73,6 +69,7 @@ namespace PCWPF.ViewModels
         {
             client = (FTPClient)Thread.GetData(Thread.GetNamedDataSlot("Client"));
             pcFileManager = new PCFileManager();
+            logs = new List<Log>();
 
             //Commands
             ShowPCFilesViewCommand = new ViewModelCommand(ExecuteShowPCFilesViewCommand);
@@ -89,27 +86,27 @@ namespace PCWPF.ViewModels
 
         private void ExecuteShowMessageHistoryViewCommand(object obj)
         {
+            CurrentChildView = new MessageHistoryViewModel()
+            {
+                Logs = logs
+            };
             Caption = "Message History";
             Icon = IconChar.BookOpen;
         }
 
         private void ExecuteShowAndroidFilesViewCommand(object obj)
         {
-            files = client.List("");
-            Thread.SetData(Thread.GetNamedDataSlot("Files"), files);
-            Thread.SetData(Thread.GetNamedDataSlot("ManagerMode"), "Android");
-            CurrentChildView = new FileManagerViewModel();
+            Thread.SetData(Thread.GetNamedDataSlot("Logs"), logs);
+            CurrentChildView = new FileManagerViewModel(client);
             Caption = "Android Files";
             Icon = IconChar.MobileScreen;
         }
 
         private void ExecuteShowPCFilesViewCommand(object obj)
         {
-            files = pcFileManager.List("");
-            Thread.SetData(Thread.GetNamedDataSlot("Files"), files);
+            Thread.SetData(Thread.GetNamedDataSlot("Logs"), logs);
             Thread.SetData(Thread.GetNamedDataSlot("PCFileManager"), pcFileManager);
-            Thread.SetData(Thread.GetNamedDataSlot("ManagerMode"), "PC");
-            CurrentChildView = new FileManagerViewModel();
+            CurrentChildView = new FileManagerViewModel(pcFileManager);
             Caption = "PC Files";
             Icon = IconChar.Laptop;
         }

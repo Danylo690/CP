@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="PCWPF.Views.MessagesHistoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:local="clr-namespace:PCWPF.Views" 
+             xmlns:viewmodels="clr-namespace:PCWPF.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:MessageHistoryViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="486"
+             d:DesignWidth="696">
+    <Border Grid.Row="2"
+                Background="#200F53"
+                CornerRadius="10">
+        <DataGrid
+                IsReadOnly="True"
+                Name="DataGridContent"
+                ColumnWidth="*"
+                VerticalScrollBarVisibility="auto"
+                Style="{StaticResource fileManagerDataGrid}"
+                ItemsSource="{Binding Logs}">
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                        CanUserSort="False"
+                        Width="350"
+                        Binding="{Binding CommandName}"  
+                        Header="Description" 
+                        IsReadOnly="True"
+                        SortDirection="Descending"/>
+                <DataGridTextColumn 
+                        CanUserSort="False"
+                        Width="250"
+                        Binding="{Binding CommandResult}"  
+                        Header="Result" 
+                        IsReadOnly="True"/>
+                <DataGridTextColumn 
+                        CanUserSort="False"
+                        Width="*"
+                        Binding="{Binding CommandTime}"  
+                        Header="Time" 
+                        IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Border>
+</UserControl>

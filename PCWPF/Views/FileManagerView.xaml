@@ -30,16 +30,10 @@
                     <TextBlock Text="Copy" Style="{StaticResource FileManagerButtonText}"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource FileManagerButton}">
-                <StackPanel
-                    Orientation="Vertical">
-                    <fa:IconImage Icon="Scissors" Style="{StaticResource FileManagerButtonIcon}"/>
-                    <TextBlock Text="Cut" Style="{StaticResource FileManagerButtonText}"/>
-                </StackPanel>
-            </Button>
             <Button 
+                IsEnabled="False"
                 Name="PasteBtn"
-                Click="PasteBtn_Click"
+                Command="{Binding PasteCommand}"
                 Style="{StaticResource FileManagerButton}">
                 <StackPanel
                     Orientation="Vertical">
@@ -47,32 +41,33 @@
                     <TextBlock Text="Paste" Style="{StaticResource FileManagerButtonText}"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource FileManagerButton}">
+            <Button
+                Command="{Binding DeleteCommand}"
+                CommandParameter="{Binding ElementName=DataGridContent, Path=SelectedItems}"
+                Style="{StaticResource FileManagerButton}">
                 <StackPanel
                     Orientation="Vertical">
                     <fa:IconImage Icon="Trash" Style="{StaticResource FileManagerButtonIcon}"/>
                     <TextBlock Text="Delete" Style="{StaticResource FileManagerButtonText}"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource FileManagerButton}">
+            <Button 
+                Command="{Binding RenameCommand}"
+                CommandParameter="{Binding ElementName=DataGridContent, Path=SelectedItems}"
+                Style="{StaticResource FileManagerButton}">
                 <StackPanel
                     Orientation="Vertical">
                     <fa:IconImage Icon="Pen" Style="{StaticResource FileManagerButtonIcon}"/>
                     <TextBlock Text="Rename" Style="{StaticResource FileManagerButtonText}"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource FileManagerButton}">
+            <Button 
+                Command="{Binding CreateNewFolderCommand}"
+                Style="{StaticResource FileManagerButton}">
                 <StackPanel
                     Orientation="Vertical">
                     <fa:IconImage Icon="FolderPlus" Style="{StaticResource FileManagerButtonIcon}"/>
                     <TextBlock Text="New folder" Style="{StaticResource FileManagerButtonText}"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource FileManagerButton}">
-                <StackPanel
-                    Orientation="Vertical">
-                    <fa:IconImage Icon="FileCircleQuestion" Style="{StaticResource FileManagerButtonIcon}"/>
-                    <TextBlock Text="Properties" Style="{StaticResource FileManagerButtonText}"/>
                 </StackPanel>
             </Button>
         </StackPanel>
@@ -83,22 +78,22 @@
             Grid.Row="1"
             Orientation="Horizontal">
             <Button 
-                Click="MovePrevFolder_Click"
+                Command="{Binding PrevFolderCommand}"
                 Name="MovePrevFolder"
-                IsEnabled="False"
+                IsEnabled="{Binding PrevFolderEnabled}"
                 Style="{StaticResource FileManagerNavigationButton}">
                 <fa:IconImage Icon="ArrowLeft" Style="{StaticResource FileManagerNavigationButtonIcon}"/>
             </Button>
             <Button 
-                Click="MoveNextFolder_Click"
+                Command="{Binding NextFolderCommand}"
                 Name="MoveNextFolder"
-                IsEnabled="False"
+                IsEnabled="{Binding NextFolderEnabled}"
                 Style="{StaticResource FileManagerNavigationButton}">
                 <fa:IconImage Icon="ArrowRight" Style="{StaticResource FileManagerNavigationButtonIcon}"/>
             </Button>
             <Border Style="{StaticResource FileManagerNavigationPathBorder}">
                 <TextBox 
-                    Text="/"
+                    Text="{Binding Path}"
                     Name="PathTextBox"
                     CaretBrush="{StaticResource titleColor1}" 
                     Foreground="{StaticResource titleColor1}"
@@ -114,16 +109,21 @@
                 Background="#200F53"
                 CornerRadius="10">
             <DataGrid
-                MouseRightButtonUp="DataGridContent_MouseRightButtonUp"
                 DataContextChanged="DataGridContent_DataContextChanged"
+                MouseRightButtonUp="DataGridContent_MouseRightButtonUp"
                 IsReadOnly="True"
                 Name="DataGridContent"
                 SelectionChanged="DataGridContent_SelectionChanged"
-                MouseDoubleClick="DataGrid_MouseDoubleClick"
                 ColumnWidth="*"
                 VerticalScrollBarVisibility="auto"
                 Style="{StaticResource fileManagerDataGrid}"
                 ItemsSource="{Binding Files}">
+                <DataGrid.InputBindings>
+                    <MouseBinding
+                        MouseAction="LeftDoubleClick"
+                        CommandParameter="{Binding ElementName=DataGridContent, Path=SelectedItems}"
+                        Command="{Binding ListCommand}"/>
+                </DataGrid.InputBindings>
                 <DataGrid.Columns>
                     <DataGridTemplateColumn 
                         CanUserReorder="False"
@@ -136,22 +136,26 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn 
+                        CanUserSort="False"
                         Width="200"
                         Binding="{Binding Name}"  
                         Header="Name" 
                         IsReadOnly="True"
                         SortDirection="Descending"/>
                     <DataGridTextColumn 
+                        CanUserSort="False"
                         Width="70"
                         Binding="{Binding ParsedSize}"  
                         Header="Size" 
                         IsReadOnly="True"/>
                     <DataGridTextColumn 
+                        CanUserSort="False"
                         Width="2*"
                         Binding="{Binding Date}"  
                         Header="Date" 
                         IsReadOnly="True"/>
                     <DataGridTextColumn 
+                        CanUserSort="False"
                         Width="*"
                         Binding="{Binding Permission}"  
                         Header="Permissions" 

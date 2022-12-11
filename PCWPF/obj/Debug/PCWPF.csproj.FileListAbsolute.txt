@@ -31,3 +31,12 @@ E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\FTPClientContentView.g
 E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\FTPClientContentView.baml
 E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\FileManagerView.g.cs
 E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\FileManagerView.baml
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\CreateOrRenameDialogView.g.cs
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\CreateOrRenameDialogView.baml
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\QuestionView.g.cs
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\QuestionView.baml
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Styles\WindowStyle.baml
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\ProgressBarView.g.cs
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\ProgressBarView.baml
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\MessagesHistoryView.g.cs
+E:\Studying\4 курс\КС\КП\CP\PCWPF\obj\Debug\Views\MessagesHistoryView.baml

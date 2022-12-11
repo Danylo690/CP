@@ -74,12 +74,15 @@
     <Compile Include="Models\FileInformation.cs" />
     <Compile Include="Models\FTPClient.cs" />
     <Compile Include="Models\FTPServer.cs" />
+    <Compile Include="Models\IFileManager.cs" />
+    <Compile Include="Models\Log.cs" />
     <Compile Include="Models\PCFileManager.cs" />
     <Compile Include="ViewModels\ConnectFTPServerViewModel.cs" />
     <Compile Include="ViewModels\CreateFTPServerViewModel.cs" />
     <Compile Include="ViewModels\FTPClientContentViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\FileManagerViewModel.cs" />
+    <Compile Include="ViewModels\MessageHistoryViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelCommand.cs" />
     <Compile Include="Views\ConnectFTPServerView.xaml.cs">
@@ -101,6 +104,18 @@
     <Compile Include="Views\FileManagerView.xaml.cs">
       <DependentUpon>FileManagerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CreateOrRenameDialogView.xaml.cs">
+      <DependentUpon>CreateOrRenameDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MessagesHistoryView.xaml.cs">
+      <DependentUpon>MessagesHistoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProgressBarView.xaml.cs">
+      <DependentUpon>ProgressBarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\QuestionView.xaml.cs">
+      <DependentUpon>QuestionView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Styles\ButtonStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -110,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\UIColorPallete.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\WindowStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -130,6 +149,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FileManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateOrRenameDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MessagesHistoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProgressBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\QuestionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

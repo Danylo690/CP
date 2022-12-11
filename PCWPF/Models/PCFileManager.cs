@@ -1,19 +1,20 @@
-﻿using FontAwesome.Sharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
 
 namespace PCWPF.Models
 {
-    public class PCFileManager
+    public class PCFileManager : IFileManager
     {
         private List<FileInformation> _files;
 
         public List<FileInformation> Files { get => _files; set => _files = value; }
+
+        public string GetFileManagerMode()
+        {
+            return "PC";
+        }
 
         public List<FileInformation> List(string path)
         {
@@ -56,6 +57,51 @@ namespace PCWPF.Models
                 }
             }
             return files;
+        }
+
+        public void Mkdir(string path, string name = "")
+        {
+            Directory.CreateDirectory(path + "\\" + name);
+        }
+
+        public void Rename(FileInformation renamedFile, string newName)
+        {
+            try
+            {
+                int index = renamedFile.Path.LastIndexOf("\\");
+                string newPath = "";
+                if (index != -1)
+                {
+                    newPath = renamedFile.Path.Substring(0, index + 1) + newName;
+                }
+                if (renamedFile.IsFolder)
+                {
+                    Directory.Move(renamedFile.Path, newPath);
+                }
+                if (renamedFile.IsFile)
+                {
+                    System.IO.File.Move(renamedFile.Path, newPath);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public void Delete(List<FileInformation> deletedFiles)
+        {
+            foreach (FileInformation deletedFile in deletedFiles)
+            {
+                if (deletedFile.IsFolder)
+                {
+                    Directory.Delete(deletedFile.Path, true);
+                }
+                if (deletedFile.IsFile)
+                {
+                    File.Delete(deletedFile.Path);
+                }
+            }
         }
 
         private FileInformation CreateFileInformation(string path, bool isDir, bool isFile)

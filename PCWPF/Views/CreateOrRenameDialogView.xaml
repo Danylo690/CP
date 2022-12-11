@@ -1,0 +1,93 @@
+﻿<Window x:Class="PCWPF.Views.CreateOrRenameDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:local="clr-namespace:PCWPF.Views"
+        xmlns:viewModel="clr-namespace:PCWPF.ViewModels"
+        mc:Ignorable="d"
+        Title="RenameDialog" 
+        Height="80" 
+        Width="270"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Name="createOrRenameDialog">
+    <Border
+        BorderThickness="1">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#462AD8" Offset="0"/>
+                <GradientStop Color="#DA34AE" Offset="0.75"/>
+                <GradientStop Color="#8A16C1" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid
+                Background="{StaticResource panelColor}"/>
+            <TextBlock 
+                Text="{Binding Title, ElementName=createOrRenameDialog}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="10,0"
+                Style="{StaticResource FileManagerButtonText}"
+                FontSize="15"/>
+            <Button 
+                Click="CloseBtn_Click"
+                Width="25"
+                Height="25"
+                HorizontalAlignment="Right"
+                Margin="0,0,10,0"
+                x:Name="CloseBtn"
+                Style="{StaticResource controlButton}"
+                Tag="{StaticResource color4}">
+                <fa:IconImage 
+                    Icon="Xmark" 
+                    Style="{StaticResource controlButtonIcon}"
+                    Width="12"
+                    Height="12"/>
+            </Button>
+            <Rectangle 
+                Fill="{StaticResource panelActiveColor}"
+                Grid.Row="1"/>
+            <Grid
+                Grid.Row="1"
+                Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Text="{Binding NewFolderName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Padding="5,0,0,0"
+                    CaretBrush="{StaticResource titleColor1}"
+                    Foreground="{StaticResource titleColor1}"
+                    Background="Transparent"
+                    Name="TextBox"
+                    BorderThickness="1"
+                    VerticalContentAlignment="Center"/>
+                <Button
+                    Name="SubmitBtn"
+                    Click="SubmitBtn_Click"
+                    Grid.Column="1"
+                    Height="25"
+                    Width="25"
+                    Style="{StaticResource controlButton}"
+                    Tag="{StaticResource color4}">
+                    <fa:IconImage 
+                        Icon="ArrowRight" 
+                        Style="{StaticResource controlButtonIcon}"
+                        Width="12"
+                        Height="12"/>
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
